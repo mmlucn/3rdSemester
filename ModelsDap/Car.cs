@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 
-namespace SharedLib
+namespace ModelsDap
 {
     public class Car
     {
