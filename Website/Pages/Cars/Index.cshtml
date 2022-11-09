@@ -1,0 +1,59 @@
+﻿@page "/Cars"
+@model Website.Pages.Cars.CarsModel
+@using Website.Pages.Cars;
+
+<h1>All Cars</h1>
+
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+@if (Model.cars == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Color</th>
+                <th>Photos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model.cars)
+            {
+                <tr>
+                    <td>@car.Type</td>
+                    <td>@car.Description</td>
+                    <td>@car.Model</td>
+                    <td>@car.Year</td>
+                    <td>@car.Color</td>
+                    <td>
+                        @if (car.Pictures.Count > 0)
+                        {
+                            foreach (var img in car.Pictures)
+                            {
+                                <img src="data:image/png;base64,@img.base64" width="100" height="100" style="margin: 3px">
+                            }
+                        }
+                        else
+                        {
+                            
+                            <strong>No Image</strong>
+                        }
+                    </td>
+                    <td>
+                        <button type="button" asp-action="AnotherModal" class="btn btn-primary" data-toggle="modal" data-target=""></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

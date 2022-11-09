@@ -1,0 +1,31 @@
+﻿@page "/"
+@using Website.Pages.Cars;
+
+<PageTitle>Index</PageTitle>
+<h1>Index</h1>
+
+<NavLink class="nav-link" href="" @onclick="btnClick">
+    <span class="oi oi-home" aria-hidden="true"></span> Home
+</NavLink>
+
+<AuthorizeView>
+    <Authorized>
+        <p>
+            This is visible to users who are authenticated.
+        </p>
+        <a href="cars">Idkman</a>
+    </Authorized>
+    <NotAuthorized>
+        <p>
+            This is visible to users who are not authenticated.
+        </p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    public void btnClick()
+    {
+        Console.WriteLine("Hello World!");
+
+    }
+}

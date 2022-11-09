@@ -1,5 +1,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
+using ModelsDap.Models;
+using ModelsDap.Models.Enums;
 
 namespace Tests
 {
@@ -11,11 +13,10 @@ namespace Tests
         {
             using (var con = new SqlConnection(conString))
             {
-                string query = "select * from Cars JOIN Customers ON Cars.ownerId = Customers.Id JOIN CarImages ON Cars.Id = CarImages.Id";
-                var res = con.Query<Car, Customer, CarImages, Car>(query, (car, customer, carimages) =>
+                string queryCars = "select * from Cars INNER JOIN Customers ON Cars.ownerId = Customers.Id";
+                var resCars = con.Query<Car, Customer, Car>(queryCars, (car, customer) =>
                 {
                     car.Owner = customer;
-                    car.Pictures = carimages
                     return car;
                 });
             }
@@ -79,7 +80,7 @@ namespace Tests
         [Fact]
         public async Task AddPictures()
         {
-            string path = @"C:\Programmering\UCN\3semester\Projekt\3rdSemester\Tests\pictures\first.jpg";
+            string path = @"C:\Users\mmlke\source\repos\mmlucn\3rdSemester\Tests\pictures\Dalton2.png";
             var file = File.ReadAllBytes(path);
 
             using (var con = new SqlConnection(conString))
@@ -98,11 +99,16 @@ namespace Tests
         [Fact]
         public async Task GetPictures()
         {
-            //using (var con = new SqlConnection(conString))
-            //{
-            //    string query = "select * from CarImages Where Id = @Id";
-            //    con.Query<CarImages>
-            //}
+            using (var con = new SqlConnection(conString))
+            {
+                string query = "select * from CarImages Where CarId = @Id";
+                var res = con.Query<CarImages>(query, new { Id = 2 });
+                res.ToList().ForEach(image =>
+                {
+                    File.WriteAllBytes($"pictures/yolo{image.Image.Length}.png", image.Image);
+                });
+                Assert.True(res.Count() > 0);
+            }
         }
     }
 }
