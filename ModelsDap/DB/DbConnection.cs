@@ -17,7 +17,8 @@ namespace ModelsDap.DB
 
         public DbConnection()
         {
-            conString = ConfigurationManager.ConnectionStrings["Hildur"].ConnectionString;
+            //conString = ConfigurationManager.ConnectionStrings["Hildur"].ConnectionString;
+            conString = @"Data Source=hildur.ucn.dk;User ID=DMA-CSD-S211_10407501;Password=Password1!;Database=DMA-CSD-S211_10407501;Encrypt=False;TrustServerCertificate=False";
         }
 
         public DbConnection(string connectionString)
@@ -30,7 +31,7 @@ namespace ModelsDap.DB
             List<Car> cars = new List<Car>();
             using (var con = new SqlConnection(conString))
             {
-                string queryCars = "select * from Cars INNER JOIN Customers ON Cars.ownerId = Customers.Id";
+                string queryCars = "select * from Cars INNER JOIN AspNetUsers ON Cars.ownerId = AspNetUsers.Id";
                 var resCars = await con.QueryAsync<Car, Customer, Car>(queryCars, (car, customer) =>
                 {
                     car.Owner = customer;

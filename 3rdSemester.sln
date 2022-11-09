@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelsDap", "ModelsDap\Mode
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{41150D3D-0BCC-4D51-B98E-F075D028CDEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{75B2E2E2-CC20-4F3F-91B2-A010E0C44A83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website", "Website\Website.csproj", "{75B2E2E2-CC20-4F3F-91B2-A010E0C44A83}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F31ECDCD-5753-438D-BF1A-10C624D0C9F9} = {F31ECDCD-5753-438D-BF1A-10C624D0C9F9}
 	EndProjectSection

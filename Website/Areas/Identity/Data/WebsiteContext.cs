@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Website.Areas.Identity.Data;
+using ModelsDap.Models;
 
 namespace Website.Data;
 
@@ -19,4 +20,6 @@ public class WebsiteContext : IdentityDbContext<WebsiteUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+
+    public DbSet<ModelsDap.Models.Car> Car { get; set; }
 }

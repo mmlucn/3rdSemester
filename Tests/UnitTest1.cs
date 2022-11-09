@@ -13,7 +13,7 @@ namespace Tests
         {
             using (var con = new SqlConnection(conString))
             {
-                string queryCars = "select * from Cars INNER JOIN Customers ON Cars.ownerId = Customers.Id";
+                string queryCars = "select * from Cars INNER JOIN AspNetUsers ON Cars.ownerId = AspNetUsers.Id";
                 var resCars = con.Query<Car, Customer, Car>(queryCars, (car, customer) =>
                 {
                     car.Owner = customer;
@@ -57,7 +57,7 @@ namespace Tests
                     GearType = GearType.Manual,
                     RegNumber = "ZY40138",
                     Color = "White",
-                    OwnerId = 2
+                    OwnerId = @"ee934626-6e30-408d-a352-67b0e25c1ad2"
                 });
             }
         }

@@ -9,9 +9,17 @@ namespace Website.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the WebsiteUser class
 public class WebsiteUser : IdentityUser
 {
-    [ProtectedPersonalData]
     public string CPR { get; set; }
-    [ProtectedPersonalData]
+
     public string DrivingLicenseNumber { get; set; }
+
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+
+    public string Address { get; set; }
+
+    public DateTime DateOfBirth { get; set; }
+
 }
 
