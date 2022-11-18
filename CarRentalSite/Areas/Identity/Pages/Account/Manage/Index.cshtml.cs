@@ -59,6 +59,9 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Address")]
+            public string Address { get; set; }
         }
 
         private async Task LoadAsync(CarRentalSiteUser user)
@@ -109,6 +112,12 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+            }
+
+            if (Input.Address != user.Address && !string.IsNullOrEmpty(Input.Address))
+            {
+                user.Address = user.Address;
+                await _userManager.UpdateAsync(user);
             }
 
             await _signInManager.RefreshSignInAsync(user);

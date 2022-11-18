@@ -1,3 +1,4 @@
+using CarRentalSite.Areas.Identity.Data;
 using CarRentalSite.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,12 @@ namespace CarRentalSite
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContext<CarRentalSiteContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDefaultIdentity<CarRentalSiteUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<CarRentalSiteContext>();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();

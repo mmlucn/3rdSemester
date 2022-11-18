@@ -33,17 +33,13 @@ namespace ModelsDap.DB
                 return result;
             }
         }
-        public async Task<List<Rental>> GetAllUsersRentalsAsync(int ownerId)
+        public async Task<List<Rental>> GetAllRentalsAsync(int ownerId)
         {
             List<Rental> rentals = new List<Rental>();
             using (var con = new SqlConnection(DbConnection.conString))
             {
                 string queryRentals = "select * from Rentals WHERE ownerId = @ownerId";
-                var resRentals = await con.QueryAsync<Rental>(queryRentals) =>
-                {
-                    
-                    
-                });
+                var resRentals = await con.QueryAsync<Rental>(queryRentals);
 
                 return resRentals.ToList();
             }
