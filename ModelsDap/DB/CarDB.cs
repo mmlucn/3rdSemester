@@ -16,7 +16,7 @@ namespace ModelsDap.DB
         public async Task<int> AddCarAsync(Car car)
         {
 
-            var sql = "Insert into Products (Brand, Model, Description, Year, Mileage, Type, FuelType, Doors" +
+            var sql = "Insert into Cars (Brand, Model, Description, Year, Mileage, Type, FuelType, Doors" +
                 ", FuelConsumption, ElectricityConsumption, HK, GearType, RegNumber, Color, ownerId)" +
                 "VALUES (@Brand, @Model, @Description, @Year, @Mileage, @Type, @FuelType, @Doors, @FuelConsumption, " +
                 "@ElectricityConsumption, @HK, @GearType, @RegNumber, @Color, @ownerId)";
@@ -60,7 +60,7 @@ namespace ModelsDap.DB
 
                 return resCars.ToList();
             }
-            return null;
+            return resCars;
         }
         public async Task<int> DeleteCarAsync(int id)
         {
