@@ -12,12 +12,17 @@ namespace ModelsDap.DB
 {
     public class CarImagesDB
     {
+        private string _ConString;
+        public CarImagesDB(string conString)
+        {
+            _ConString = conString;
+        }
 
         public async Task AddPictures(int carId, byte[] file)
         {
            
 
-            using (var con = new SqlConnection(DbConnection.conString))
+            using (var con = new SqlConnection(_ConString))
             {
                 string query = "INSERT INTO CarImages(Image, CarId) VALUES (@Image, @CarId)";
                 var res = con.Execute(query, new
@@ -31,7 +36,7 @@ namespace ModelsDap.DB
         }
         public async Task GetPictures(int carId)
         {
-            using (var con = new SqlConnection(DbConnection.conString))
+            using (var con = new SqlConnection(_ConString))
             {
                 string query = "select * from CarImages Where CarId = @Id";
                 var res = con.Query<CarImages>(query, new { Id = carId });
@@ -45,7 +50,7 @@ namespace ModelsDap.DB
         public async Task<int> DeleteImageAsync(int id)
         {
             var sql = "DELETE FROM CarImages WHERE Id = @Id";
-            using (var connection = new SqlConnection(DbConnection.conString))
+            using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
                 var result = await connection.ExecuteAsync(sql, new { Id = id });

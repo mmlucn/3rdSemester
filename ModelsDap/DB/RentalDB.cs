@@ -11,12 +11,17 @@ namespace ModelsDap.DB
 {
     public class RentalDB
     {
+        private string _ConString;
+        public RentalDB(string conString)
+        {
+            _ConString = conString;
+        }
         public async Task<int> AddRentalAsync(Rental rental)
         {
 
             var sql = "Insert into Rentals (carId, ownerId, loanerId, RentalPeriod)" +
                 "VALUES (@carId,@ownerId,@loanerId,@RentalPeriod)";
-            using (var connection = new SqlConnection(DbConnection.conString))
+            using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
                 var result = await connection.ExecuteAsync(sql, rental);
@@ -26,7 +31,7 @@ namespace ModelsDap.DB
         public async Task<Rental> GetRentalByIdAsync(int id)
         {
             var sql = "SELECT * FROM Rentals WHERE Id = @Id";
-            using (var connection = new SqlConnection(DbConnection.conString))
+            using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
                 var result = await connection.QuerySingleOrDefaultAsync<Rental>(sql, new { Id = id });
@@ -36,7 +41,7 @@ namespace ModelsDap.DB
         public async Task<List<Rental>> GetAllRentalsAsync(int ownerId)
         {
             List<Rental> rentals = new List<Rental>();
-            using (var con = new SqlConnection(DbConnection.conString))
+            using (var con = new SqlConnection(_ConString))
             {
                 string queryRentals = "select * from Rentals WHERE ownerId = @ownerId";
                 var resRentals = await con.QueryAsync<Rental>(queryRentals);
@@ -49,7 +54,7 @@ namespace ModelsDap.DB
         {
 
             var sql = "UPDATE Rentals SET RentalPeriod @RentalPeriod  WHERE Id = @Id";
-            using (var connection = new SqlConnection(DbConnection.conString))
+            using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
                 var result = await connection.ExecuteAsync(sql, rental);

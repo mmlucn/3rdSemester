@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDap.Models.DTOS;
+using ModelsDap.DB;
+using ModelsDap.Models;
 
 namespace WebAPI.Controllers
 {
@@ -8,11 +9,21 @@ namespace WebAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpGet]
-        public CustomerDTO GetCustomer(string email)
-        {
+        IConfiguration _configuration;
+        private string _conString;
 
-            return null;
+        public UserController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _conString = _configuration.GetConnectionString("Hildur");
+        }
+
+        [HttpGet]
+        public async Task<Customer> GetCustomer(string email)
+        {
+            CustomerDB customerDB = new(_conString);
+            var foundCustomer = await customerDB.GetCustomerByEmail(email);
+            return foundCustomer;
         }
     }
 }

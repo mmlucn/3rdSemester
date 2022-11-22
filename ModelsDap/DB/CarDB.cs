@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using ModelsDap.Conversion;
 using ModelsDap.Models;
+using ModelsDap.Models.DTOS;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,25 +15,31 @@ namespace ModelsDap.DB
 {
     public class CarDB
     {
-        public async Task<int> AddCarAsync(Car car)
+        private string _ConString;
+        public CarDB(string conString)
+        {
+            _ConString = conString;
+        }
+
+        public async Task<bool> AddCarAsync(Car car)
         {
 
             var sql = "Insert into Cars (Brand, Model, Description, Year, Mileage, Type, FuelType, Doors" +
                 ", FuelConsumption, ElectricityConsumption, HK, GearType, RegNumber, Color, ownerId)" +
                 "VALUES (@Brand, @Model, @Description, @Year, @Mileage, @Type, @FuelType, @Doors, @FuelConsumption, " +
                 "@ElectricityConsumption, @HK, @GearType, @RegNumber, @Color, @ownerId)";
-            using (var connection = new SqlConnection(DbConnection.conString))
+            using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
                 var result = await connection.ExecuteAsync(sql, car);
-                return result;
+                return (result == 1);
             }
         }
 
         public async Task<Car> GetCarByIdAsync(int id)
         {
             var sql = "SELECT * FROM Cars WHERE Id = @Id";
-            using (var connection = new SqlConnection(DbConnection.conString))
+            using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
                 var result = await connection.QuerySingleOrDefaultAsync<Car>(sql, new { Id = id });
@@ -40,32 +48,34 @@ namespace ModelsDap.DB
         }
         public async Task<List<Car>> GetCarsAsync()
         {
-            List<Car> cars = new List<Car>();
-            using (var con = new SqlConnection(DbConnection.conString))
+            List<Car>? cars = new List<Car>();
+            using (var con = new SqlConnection(_ConString))
             {
-                string queryCars = "select * from Cars INNER JOIN AspNetUsers ON Cars.ownerId = AspNetUsers.Id";
-                var resCars = await con.QueryAsync<Car, Customer, Car>(queryCars, (car, customer) =>
+                string queryCars = "select * from Cars INNER JOIN Customers ON Cars.ownerId = Customers.Id";
+                //Hent alle biler.
+                var resCars = await con.QueryAsync<Car, CustomerDTO, Car>(queryCars, (car, customer) =>
                 {
-                    car.Owner = customer;
+                    car.Owner = DTOConverter.CustomerDTOToCustomer(customer);
                     return car;
                 });
 
-                string queryImg = "select * from CarImages";
-                var resImg = await con.QueryAsync<CarImages>(queryImg);
-                foreach (var car in resCars)
-                {
-                    car.Pictures = resImg.Where(img => img.CarId == car.Id).ToList();
-                }
+                //Tilføj eventuelle billeder, til hver bil.
+                //string queryImg = "select * from CarImages";
+                //var resImg = await con.QueryAsync<CarImages>(queryImg);
+                //foreach (var car in resCars)
+                //{
+                //    car.Pictures = resImg.Where(img => img.CarId == car.Id).ToList();
+                //}
 
-
-                return resCars.ToList();
+                //Retuner alle biler
+                cars = resCars.ToList();
             }
-            return resCars;
+            return cars;
         }
         public async Task<int> DeleteCarAsync(int id)
         {
             var sql = "DELETE FROM Cars WHERE Id = @Id";
-            using (var connection = new SqlConnection(DbConnection.conString))
+            using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
                 var result = await connection.ExecuteAsync(sql, new { Id = id });
@@ -77,7 +87,7 @@ namespace ModelsDap.DB
 
             var sql = "UPDATE Cars SET Brand @Brand, Model @Model, Description @Description, Year @Year, Mileage @Mileage, Type @Type, FuelType @FuelType, Doors @Doors" +
                 ", FuelConsumption @FuelConsumption, ElectricityConsumption @ElectricityConsumption, HK @HK, GearType @GearType, RegNumber @RegNumber, Color @Color  WHERE Id = @Id";
-            using (var connection = new SqlConnection(DbConnection.conString))
+            using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
                 var result = await connection.ExecuteAsync(sql, car);

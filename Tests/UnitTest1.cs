@@ -57,7 +57,7 @@ namespace Tests
                     GearType = GearType.Manual,
                     RegNumber = "ZY40138",
                     Color = "White",
-                    OwnerId = @"ee934626-6e30-408d-a352-67b0e25c1ad2"
+                    OwnerId = 1
                 });
             }
         }

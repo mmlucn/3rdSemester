@@ -48,7 +48,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Cars](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[ownerId] [nvarchar](450) NOT NULL,
+	[ownerId] [int] NOT NULL,
 	[Brand] [nvarchar](max) NOT NULL,
 	[Model] [nvarchar](max) NOT NULL,
 	[Description] [nvarchar](max) NULL,
@@ -79,10 +79,12 @@ CREATE TABLE [dbo].[Customers](
 	[Firstname] [nvarchar](max) NOT NULL,
 	[Lastname] [nvarchar](max) NOT NULL,
 	[Address] [nvarchar](max) NOT NULL,
-	[EMail] [nvarchar](max) NOT NULL,
+	[EMail] [nvarchar](300) UNIQUE NOT NULL,
 	[CPR] [nvarchar](max) NOT NULL,
 	[DateOfBirth] [datetime2](7) NOT NULL,
 	[DriverLicenseNr] [nvarchar](max) NOT NULL,
+	[PhoneNumber] [varchar](20) UNIQUE NOT NULL,
+	[ProfilePicture] [varbinary](max)
  CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -97,8 +99,8 @@ GO
 CREATE TABLE [dbo].[Rentals](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[carId] [int] NULL,
-	[ownerId] [nvarchar](450) NULL,
-	[loanerId] [nvarchar](450) NULL,
+	[ownerId] [int] NULL,
+	[loanerId] [int] NULL,
 	[RentalPeriod] [time](7) NOT NULL,
  CONSTRAINT [PK_Rentals] PRIMARY KEY CLUSTERED 
 (
@@ -111,24 +113,24 @@ REFERENCES [dbo].[Cars] ([Id])
 GO
 ALTER TABLE [dbo].[CarImages] CHECK CONSTRAINT [FK_CarImages_Cars_CarId]
 GO
-ALTER TABLE [dbo].[Cars]  WITH CHECK ADD  CONSTRAINT [FK_Cars_AspNetUsers_ownerId] FOREIGN KEY([ownerId])
-REFERENCES [dbo].[AspNetUsers] ([Id])
+ALTER TABLE [dbo].[Cars]  WITH CHECK ADD  CONSTRAINT [FK_Cars_Customers_ownerId] FOREIGN KEY([ownerId])
+REFERENCES [dbo].[Customers] ([Id])
 ON DELETE CASCADE
 GO
-ALTER TABLE [dbo].[Cars] CHECK CONSTRAINT [FK_Cars_AspNetUsers_ownerId]
+ALTER TABLE [dbo].[Cars] CHECK CONSTRAINT [FK_Cars_Customers_ownerId]
 GO
 ALTER TABLE [dbo].[Rentals]  WITH CHECK ADD  CONSTRAINT [FK_Rentals_Cars_carId] FOREIGN KEY([carId])
 REFERENCES [dbo].[Cars] ([Id])
 GO
 ALTER TABLE [dbo].[Rentals] CHECK CONSTRAINT [FK_Rentals_Cars_carId]
 GO
-ALTER TABLE [dbo].[Rentals]  WITH CHECK ADD  CONSTRAINT [FK_Rentals_AspNetUsers_loanerId] FOREIGN KEY([loanerId])
-REFERENCES [dbo].[AspNetUsers] ([Id])
+ALTER TABLE [dbo].[Rentals]  WITH CHECK ADD  CONSTRAINT [FK_Rentals_Customers_loanerId] FOREIGN KEY([loanerId])
+REFERENCES [dbo].[Customers] ([Id])
 GO
-ALTER TABLE [dbo].[Rentals] CHECK CONSTRAINT [FK_Rentals_AspNetUsers_loanerId]
+ALTER TABLE [dbo].[Rentals] CHECK CONSTRAINT [FK_Rentals_Customers_loanerId]
 GO
-ALTER TABLE [dbo].[Rentals]  WITH CHECK ADD  CONSTRAINT [FK_Rentals_AspNetUsers_ownerId] FOREIGN KEY([ownerId])
-REFERENCES [dbo].[AspNetUsers] ([Id])
+ALTER TABLE [dbo].[Rentals]  WITH CHECK ADD  CONSTRAINT [FK_Rentals_Customers_ownerId] FOREIGN KEY([ownerId])
+REFERENCES [dbo].[Customers] ([Id])
 GO
-ALTER TABLE [dbo].[Rentals] CHECK CONSTRAINT [FK_Rentals_AspNetUsers_ownerId]
+ALTER TABLE [dbo].[Rentals] CHECK CONSTRAINT [FK_Rentals_Customers_ownerId]
 GO

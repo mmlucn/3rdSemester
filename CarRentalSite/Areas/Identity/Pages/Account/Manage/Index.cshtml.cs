@@ -4,12 +4,14 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using CarRentalSite.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ModelsDap.Models;
 
 namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
 {
@@ -17,6 +19,7 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<CarRentalSiteUser> _userManager;
         private readonly SignInManager<CarRentalSiteUser> _signInManager;
+        private Customer _Customer;
 
         public IndexModel(
             UserManager<CarRentalSiteUser> userManager,
@@ -31,6 +34,8 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string Username { get; set; }
+
+        public string CPR { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -69,7 +74,13 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            HttpClient client = new HttpClient();
+            var res = await client.GetFromJsonAsync<Customer>($"https://localhost:7124/api/User?email={user.Email}");
+            if (res != null)
+                _Customer = res;
+
             Username = userName;
+            CPR = _Customer.CPR;
 
             Input = new InputModel
             {
@@ -80,6 +91,7 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

@@ -23,4 +23,8 @@
     <Folder Include="Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ModelsDap\ModelsDap.csproj" />
+  </ItemGroup>
+
 </Project>
