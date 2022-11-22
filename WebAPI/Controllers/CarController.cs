@@ -27,27 +27,49 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("/GetCar/{id}")]
-        public ActionResult<Car> GetCarById(int id)
+        public async Task<ActionResult<Car>> GetCarById(int id)
         {
+            ModelsDap.DB.CarDB carDB = new ModelsDap.DB.CarDB(_Configuration.GetConnectionString("Hildur"));
+            var res = await carDB.GetCarByIdAsync(id);
+            if (res.Id > 0)
+            {
+                return Ok(res);
+            }
+            return Problem("Error");
+        }
+
+        [HttpPost("/AddCar")]
+        public async Task<ActionResult<Car>> AddCar(Car car)
+        {
+            ModelsDap.DB.CarDB carDB = new ModelsDap.DB.CarDB(_Configuration.GetConnectionString("Hildur"));
+            var res = await carDB.AddCarAsync(car);
+            
+
+            return CreatedAtAction(nameof(GetCarById), new {id = car.Id}, car);
+        }
+
+        [HttpDelete("/DeleteCar/{id}")]
+        public async Task<ActionResult<int>> DeleteCar(int id)
+        {
+            ModelsDap.DB.CarDB carDB = new ModelsDap.DB.CarDB(_Configuration.GetConnectionString("Hildur"));
+            var res = await carDB.DeleteCarAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+
+            }
             return Ok();
         }
 
-        [HttpPost]
-        public ActionResult AddCar()
+        [HttpPut("/PutCar/{id}")]
+        public async Task<ActionResult<int>> UpdateCar(Car car)
         {
-            return Ok();
-        }
+            
+            ModelsDap.DB.CarDB carDB = new ModelsDap.DB.CarDB(_Configuration.GetConnectionString("Hildur"));
+            var res = await carDB.UpdateCarAsync(car);
 
-        [HttpDelete]
-        public ActionResult DeleteCar()
-        {
-            return Ok();
-        }
 
-        [HttpPut]
-        public ActionResult UpdateCar(Car car)
-        {
-            return Ok();
+            return Ok(res);
         }
     }
 }
