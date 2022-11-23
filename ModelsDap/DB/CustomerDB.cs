@@ -30,5 +30,20 @@ namespace ModelsDap.DB
             }
             return null;
         }
+
+        public async Task<bool> AddCarAsync(Customer customer)
+        {
+
+            var sql = "Insert into Customers (FirstName, LastName, Address, Email, CPR, DateOfBirth, DrivingLicenseNumber" +
+                ", PhoneNumber, ProfilePicture)" +
+                "VALUES (@FirstName, @LastName, @Address, @Email, @CPR, @DateOfBirth, @DrivingLicenseNumber " +
+                "@PhoneNumber, @ProfilePicture)";
+            using (var connection = new SqlConnection(_ConnectionString))
+            {
+                connection.Open();
+                var result = await connection.ExecuteAsync(sql, customer);
+                return (result == 1);
+            }
+        }
     }
 }
