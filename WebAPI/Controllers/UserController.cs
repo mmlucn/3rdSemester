@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ModelsDap.DB;
 using ModelsDap.Models;
+using ModelsDap.Models.DTOS;
 
 namespace WebAPI.Controllers
 {
@@ -26,12 +27,24 @@ namespace WebAPI.Controllers
             return foundCustomer;
         }
 
-        [HttpPost]
+        [HttpPost("CreateUser")]
         public async Task<ActionResult<bool>> CreateCustomer([FromBody] Customer customer)
         {
             CustomerDB customerDB = new(_conString);
+            var result = await customerDB.AddCustomerAsync(customer);
+            if (result)
+                return Ok(result);
+            return Problem("Error");
+        }
 
-            return true;
+        [HttpPost("UpdateProfilePicture")]
+        public async Task<ActionResult<bool>> UpdateProfilePicture([FromBody] ProfilePictureDTO profilePictureDTO)
+        {
+            CustomerDB customerDB = new(_conString);
+            var result = await customerDB.UpdateProfilePicture(profilePictureDTO);
+            if (result)
+                return Ok();
+            return Problem("Error");
         }
     }
 }

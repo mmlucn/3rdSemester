@@ -9,7 +9,6 @@ namespace ModelsDap.Models
 {
     public class Customer
     {
-        [Key]
         public int Id { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
@@ -18,6 +17,7 @@ namespace ModelsDap.Models
         public string CPR { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string DrivingLicenseNumber { get; set; }
-
+        public string PhoneNumber { get; set; }
+        public byte[]? ProfilePicture { get; set; }
     }
 }

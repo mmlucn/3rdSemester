@@ -11,7 +11,9 @@ using CarRentalSite.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModelsDap.Models;
+using ModelsDap.Models.DTOS;
 
 namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
 {
@@ -34,6 +36,8 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string Username { get; set; }
+
+        public string? ProfilePictureBase64 { get; set; }
 
         public string CPR { get; set; }
 
@@ -67,6 +71,9 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Address")]
             public string Address { get; set; }
+
+            [Display(Name = "Profile Picture")]
+            public IFormFile ProfilePicture { get; set; }
         }
 
         private async Task LoadAsync(CarRentalSiteUser user)
@@ -81,6 +88,7 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
             CPR = _Customer.CPR;
+            ProfilePictureBase64 = System.Convert.ToBase64String(_Customer.ProfilePicture);
 
             Input = new InputModel
             {
@@ -115,6 +123,24 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            HttpClient client = new HttpClient();
+            var customer = await client.GetFromJsonAsync<Customer>($"https://localhost:7124/api/User?email={user.Email}");
+
+            if (Input.ProfilePicture != null)
+            {
+                MemoryStream memoryStream = new MemoryStream();
+                Input.ProfilePicture.CopyTo(memoryStream);
+                var picBase64 = System.Convert.ToBase64String(memoryStream.ToArray());
+
+                HttpClient httpClient = new();
+                var res = await httpClient.PostAsJsonAsync<ProfilePictureDTO>(@"https://localhost:7124/api/User/UpdateProfilePicture", new ProfilePictureDTO
+                {
+                    PictureAsBase64 = picBase64,
+                    UserId = customer.Id
+                });
+            }
+            
+
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -124,12 +150,6 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
-            }
-
-            if (Input.Address != user.Address && !string.IsNullOrEmpty(Input.Address))
-            {
-                user.Address = user.Address;
-                await _userManager.UpdateAsync(user);
             }
 
             await _signInManager.RefreshSignInAsync(user);

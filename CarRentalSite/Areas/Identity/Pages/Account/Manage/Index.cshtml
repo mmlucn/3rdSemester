@@ -9,7 +9,7 @@
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
     <div class="col-md-6">
-        <form id="profile-form" method="post">
+        <form id="profile-form" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
                 <input asp-for="Username" class="form-control" disabled />
@@ -29,8 +29,19 @@
                 <label asp-for="Input.Address" class="form-label"></label>
                 <span asp-validation-for="Input.Address"></span>
             </div>
+            <div class="form-floating">
+                <input asp-for="Input.ProfilePicture" type="file" class="form-control" aria-required="false" />
+                <label asp-for="Input.ProfilePicture"></label>
+            </div>
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
+    </div>
+    <div class="col">
+        @if (Model.ProfilePictureBase64 != null)
+        {
+            <h1>Profile Picture:</h1>
+            <img src="data:image/png;base64, @Model.ProfilePictureBase64" height="200" width="200" />
+        }
     </div>
 </div>
 
