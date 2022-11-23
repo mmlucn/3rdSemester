@@ -25,5 +25,13 @@ namespace WebAPI.Controllers
             var foundCustomer = await customerDB.GetCustomerByEmail(email);
             return foundCustomer;
         }
+
+        [HttpPost]
+        public async Task<ActionResult<bool>> CreateCustomer([FromBody] Customer customer)
+        {
+            CustomerDB customerDB = new(_conString);
+
+            return true;
+        }
     }
 }

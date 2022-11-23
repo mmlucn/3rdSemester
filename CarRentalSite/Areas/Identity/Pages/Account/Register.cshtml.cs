@@ -98,6 +98,31 @@ namespace CarRentalSite.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Firstname")]
+            public string Firstname { get; set; }
+
+            [Display(Name = "Lastname")]
+            public string Lastname { get; set; }
+
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+
+            [Display(Name = "CPR")]
+            public string CPR { get; set; }
+
+            [Display(Name = "Birthday")]
+            public DateTime Birthday { get; set; }
+
+            [Display(Name = "Driver license number")]
+            public string DrivingLicenseNumber { get; set; }
+
+            [Display(Name = "Phone number")]
+            public string PhoneNumber { get; set; }
+
+            [Display(Name = "Profile picture")]
+            public FormFile ProfilePicture { get; set; }
+
         }
 
 
@@ -113,11 +138,14 @@ namespace CarRentalSite.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+
+
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
 
                 if (result.Succeeded)
                 {
