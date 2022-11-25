@@ -41,12 +41,16 @@
             </div>
             <div class="form-group">
                 <label asp-for="Car.Type" class="control-label"></label>
-                <select asp-for="Car.Type" class="form-control"></select>
+                <select asp-for="Car.Type" asp-items="Html.GetEnumSelectList<ModelsDap.Models.Enums.CarType>()" class="form-control">
+                    <option selected="selected" value="@Model.Car.Type"></option>
+                </select>
                 <span asp-validation-for="Car.Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Car.FuelType" class="control-label"></label>
-                <select asp-for="Car.FuelType" class="form-control"></select>
+                <select asp-for="Car.FuelType" asp-items="Html.GetEnumSelectList<ModelsDap.Models.Enums.FuelType>()" class="form-control">
+                    <option selected="selected" value="@Model.Car.FuelType"></option>
+                </select>
                 <span asp-validation-for="Car.FuelType" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -71,7 +75,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Car.GearType" class="control-label"></label>
-                <select asp-for="Car.GearType" class="form-control"></select>
+                <select asp-for="Car.GearType" asp-items="Html.GetEnumSelectList<ModelsDap.Models.Enums.GearType>()" class="form-control">
+                    <option selected="selected" value="@Model.Car.GearType"></option>
+                </select>
                 <span asp-validation-for="Car.GearType" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -47,24 +47,9 @@ namespace CarRentalSite.Pages.cars2
             {
                 return Page();
             }
-
-            //_context.Attach(Car).State = EntityState.Modified;
-
-            try
-            {
-                //await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarExists(Car.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
+            
+            var res = await _httpClient.PutAsJsonAsync<Car>($"api/Car/UpdateCar/{Car.Id}", Car);
 
             return RedirectToPage("./Index");
         }

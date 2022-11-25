@@ -78,14 +78,12 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPut("PutCar/{id}")]
+        [HttpPut("UpdateCar/{id}")]
         public async Task<ActionResult<int>> UpdateCar(Car car)
         {
 
             CarDB carDB = new CarDB(_conString);
             var res = await carDB.UpdateCarAsync(car);
-
-
             return Ok(res);
         }
     }
