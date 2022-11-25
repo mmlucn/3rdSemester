@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CarRentalSite.Data;
 using ModelsDap.Models;
+using Microsoft.AspNetCore.Identity;
+using CarRentalSite.Areas.Identity.Data;
 
 namespace CarRentalSite.Pages.cars2
 {

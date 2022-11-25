@@ -14,11 +14,11 @@ namespace CarRentalSite.Pages.cars2
 {
     public class DetailsModel : PageModel
     {
-        private readonly CarRentalSite.Data.CarRentalSiteContext _context;
+        
 
-        public DetailsModel(CarRentalSite.Data.CarRentalSiteContext context)
+        public DetailsModel()
         {
-            _context = context;
+            
         }
 
       public Car Car { get; set; }
