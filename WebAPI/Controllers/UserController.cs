@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         public async Task<Customer> GetCustomer(string email)
         {
             CustomerDB customerDB = new(_conString);
-            var foundCustomer = await customerDB.GetCustomerByEmail(email);
+            var foundCustomer = await customerDB.GetCustomerByEmailAsync(email);
             return foundCustomer;
         }
 
@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<bool>> UpdateProfilePicture([FromBody] ProfilePictureDTO profilePictureDTO)
         {
             CustomerDB customerDB = new(_conString);
-            var result = await customerDB.UpdateProfilePicture(profilePictureDTO);
+            var result = await customerDB.UpdateProfilePictureAsync(profilePictureDTO);
             if (result)
                 return Ok();
             return Problem("Error");

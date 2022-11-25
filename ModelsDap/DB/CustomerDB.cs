@@ -18,7 +18,7 @@ namespace ModelsDap.DB
             _ConnectionString = connectionString;
         }
 
-        public async Task<Customer> GetCustomerByEmail(string email)
+        public async Task<Customer> GetCustomerByEmailAsync(string email)
         {
             using (var con = new SqlConnection(_ConnectionString))
             {
@@ -63,7 +63,7 @@ namespace ModelsDap.DB
             }
         }
 
-        public async Task<bool> UpdateProfilePicture(ProfilePictureDTO profilePictureDTO)
+        public async Task<bool> UpdateProfilePictureAsync(ProfilePictureDTO profilePictureDTO)
         {
             string query = @"UPDATE Customers SET ProfilePicture = @Picture WHERE Id = @UserId";
             using (var con = new SqlConnection(_ConnectionString))

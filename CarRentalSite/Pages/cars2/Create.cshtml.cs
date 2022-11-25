@@ -16,10 +16,14 @@ namespace CarRentalSite.Pages.cars2
     public class CreateModel : PageModel
     {
         private readonly UserManager<CarRentalSiteUser> _userManager;
+        private readonly IConfiguration _configuration;
+        private readonly string _conString;
 
-        public CreateModel(UserManager<CarRentalSiteUser> userManager)
+        public CreateModel(UserManager<CarRentalSiteUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
+            _configuration = configuration;
+            _conString = _configuration.GetConnectionString("Hildur");
         }
 
         public IActionResult OnGet()
@@ -42,9 +46,12 @@ namespace CarRentalSite.Pages.cars2
             }
             else
             {
-                var user = _userManager.GetUserAsync(User);
+                var user = await _userManager.GetUserAsync(User);
 
-                var res = await client.PostAsJsonAsync<Car>(@"https://localhost:7124/api/User/CreateUser", car);
+                HttpClient httpClient = new HttpClient();
+                var customer = await httpClient.GetFromJsonAsync<Customer>($"https://localhost:7124/api/User?email={user.Email}");
+                car.OwnerID = customer.Id;
+                var res = await client.PostAsJsonAsync<Car>(@"https://localhost:7124/api/Car/AddCar", car);
             }
             
 
