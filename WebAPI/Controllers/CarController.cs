@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
 
         [HttpGet("GetAllUsersCars/{ownerId}")]
         [ProducesResponseType(typeof(List<Car>), 200)]
-        public async Task<ActionResult<Car>> GetAllUsersCars(int ownerId)
+        public async Task<ActionResult<List<Car>>> GetAllUsersCars(int ownerId)
         {
             CarDB carDB = new CarDB(_conString);
             var res = await carDB.GetAllCustomerCarsAsync(ownerId);
