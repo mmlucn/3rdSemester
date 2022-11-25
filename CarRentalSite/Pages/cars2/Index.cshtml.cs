@@ -9,6 +9,7 @@ using CarRentalSite.Data;
 using ModelsDap.Models;
 using Microsoft.AspNetCore.Identity;
 using CarRentalSite.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRentalSite.Pages.cars2
 {

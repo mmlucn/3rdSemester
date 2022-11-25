@@ -19,7 +19,10 @@ namespace CarRentalSite
 
             builder.Services.AddDefaultIdentity<CarRentalSiteUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<CarRentalSiteContext>();
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeFolder("/cars2");
+            });
 
             HttpClient httpClient = new HttpClient();
             var baseAddr = builder.Configuration.GetValue<string>("WebApiBaseUrl");

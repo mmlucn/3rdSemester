@@ -13,11 +13,11 @@ namespace CarRentalSite.Pages.cars2
 {
     public class EditModel : PageModel
     {
-        private readonly CarRentalSite.Data.CarRentalSiteContext _context;
+        private readonly HttpClient _httpClient;
 
-        public EditModel(CarRentalSite.Data.CarRentalSiteContext context)
+        public EditModel(HttpClient httpClient)
         {
-            _context = context;
+            _httpClient = httpClient;
         }
 
         [BindProperty]
@@ -25,12 +25,12 @@ namespace CarRentalSite.Pages.cars2
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Car == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var car =  await _context.Car.FirstOrDefaultAsync(m => m.Id == id);
+            var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
             if (car == null)
             {
                 return NotFound();
@@ -48,11 +48,11 @@ namespace CarRentalSite.Pages.cars2
                 return Page();
             }
 
-            _context.Attach(Car).State = EntityState.Modified;
+            //_context.Attach(Car).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,7 +71,8 @@ namespace CarRentalSite.Pages.cars2
 
         private bool CarExists(int id)
         {
-          return _context.Car.Any(e => e.Id == id);
+            return true;
+          //return _context.Car.Any(e => e.Id == id);
         }
     }
 }

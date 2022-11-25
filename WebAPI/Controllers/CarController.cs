@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
             _conString = _Configuration.GetConnectionString("Hildur");
         }
 
-        [HttpGet]
+        [HttpGet("GetCarById/{id}")]
         public async Task<ActionResult<Car>> GetCarById(int id)
         {
             CarDB carDB = new CarDB(_conString);
