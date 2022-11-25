@@ -26,6 +26,7 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
         public IndexModel(
             UserManager<CarRentalSiteUser> userManager,
             SignInManager<CarRentalSiteUser> signInManager)
+            
         {
             _userManager = userManager;
             _signInManager = signInManager;
