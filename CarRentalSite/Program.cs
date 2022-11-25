@@ -21,6 +21,11 @@ namespace CarRentalSite
                 .AddEntityFrameworkStores<CarRentalSiteContext>();
             builder.Services.AddRazorPages();
 
+            HttpClient httpClient = new HttpClient();
+            var baseAddr = builder.Configuration.GetValue<string>("WebApiBaseUrl");
+            httpClient.BaseAddress = new Uri(baseAddr);
+
+            builder.Services.AddSingleton(httpClient);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

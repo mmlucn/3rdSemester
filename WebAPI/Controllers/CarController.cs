@@ -38,10 +38,7 @@ namespace WebAPI.Controllers
         {
             CarDB carDB = new CarDB(_conString);
             var res = await carDB.GetCarsAsync();
-            if (res.Count > 0)
-                return Ok(res);
-
-            return Problem("Error");
+            return Ok(res);
         }
 
         [HttpGet("GetAllUsersCars/{ownerId}")]
@@ -84,7 +81,7 @@ namespace WebAPI.Controllers
         [HttpPut("PutCar/{id}")]
         public async Task<ActionResult<int>> UpdateCar(Car car)
         {
-            
+
             CarDB carDB = new CarDB(_conString);
             var res = await carDB.UpdateCarAsync(car);
 

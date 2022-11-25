@@ -22,14 +22,16 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<CarRentalSiteUser> _userManager;
         private readonly SignInManager<CarRentalSiteUser> _signInManager;
         private Customer _Customer;
+        private readonly HttpClient _client;
 
         public IndexModel(
             UserManager<CarRentalSiteUser> userManager,
-            SignInManager<CarRentalSiteUser> signInManager)
+            SignInManager<CarRentalSiteUser> signInManager, HttpClient httpClient)
             
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _client = httpClient;
         }
 
         /// <summary>
@@ -82,8 +84,7 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            HttpClient client = new HttpClient();
-            var res = await client.GetFromJsonAsync<Customer>($"https://localhost:7124/api/User?email={user.Email}");
+            var res = await _client.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             if (res != null)
                 _Customer = res;
 

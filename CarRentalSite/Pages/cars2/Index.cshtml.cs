@@ -12,27 +12,31 @@ namespace CarRentalSite.Pages.cars2
 {
     public class IndexModel : PageModel
     {
-        HttpClient client = new HttpClient();
+        private readonly HttpClient _httpClient;
+        
 
-        public IndexModel()
+        public IndexModel(HttpClient httpClient)
         {
-            
+            _httpClient = httpClient;
         }
 
         public IList<Car> Car { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-
-            HttpClient client = new HttpClient();
-            var res = await client.GetFromJsonAsync<List<Car>>(@"https://localhost:7124/api/Car/GetAllCars");
             
-            
+            var res = await _httpClient.GetFromJsonAsync<List<Car>>(@"api/Car/GetAllCars");
 
-            if (res != null)
+            if (res != null && res.Count > 0)
             {
                 Car = res.ToList();
+                return Page();
+            }
+            else
+            {
+                return RedirectToPage("Create");
             }
         }
+
     }
 }
