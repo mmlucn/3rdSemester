@@ -51,23 +51,10 @@ namespace ModelsDap.DB
             List<Car>? cars = new List<Car>();
             using (var con = new SqlConnection(_ConString))
             {
-                string queryCars = "select * from Cars INNER JOIN Customers ON Cars.ownerId = Customers.Id";
+                string queryCars = "select * from Cars";
                 //Hent alle biler.
-                var resCars = await con.QueryAsync<Car, CustomerDTO, Car>(queryCars, (car, customer) =>
-                {
-                    car.Owner = DTOConverter.CustomerDTOToCustomer(customer);
-                    return car;
-                });
+                var resCars = await con.QueryAsync<Car>(queryCars);
 
-                //Tilføj eventuelle billeder, til hver bil.
-                //string queryImg = "select * from CarImages";
-                //var resImg = await con.QueryAsync<CarImages>(queryImg);
-                //foreach (var car in resCars)
-                //{
-                //    car.Pictures = resImg.Where(img => img.CarId == car.Id).ToList();
-                //}
-
-                //Retuner alle biler
                 cars = resCars.ToList();
             }
             return cars;

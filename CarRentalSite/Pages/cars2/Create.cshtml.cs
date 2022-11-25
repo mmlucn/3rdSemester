@@ -8,16 +8,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CarRentalSite.Data;
 using ModelsDap.Models;
 using ModelsDap.DB;
+using Microsoft.AspNetCore.Identity;
+using CarRentalSite.Areas.Identity.Data;
 
 namespace CarRentalSite.Pages.cars2
 {
     public class CreateModel : PageModel
     {
-        
+        private readonly UserManager<CarRentalSiteUser> _userManager;
 
-        public CreateModel()
+        public CreateModel(UserManager<CarRentalSiteUser> userManager)
         {
-            
+            _userManager = userManager;
         }
 
         public IActionResult OnGet()
@@ -40,7 +42,9 @@ namespace CarRentalSite.Pages.cars2
             }
             else
             {
-                await client.PostAsJsonAsync<Car>(@"https://localhost:7124/api/User/CreateUser", car);
+                var user = _userManager.GetUserAsync(User);
+
+                var res = await client.PostAsJsonAsync<Car>(@"https://localhost:7124/api/User/CreateUser", car);
             }
             
 
