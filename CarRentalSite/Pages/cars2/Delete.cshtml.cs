@@ -33,22 +33,13 @@ namespace CarRentalSite.Pages.cars2
         [BindProperty]
       public Car Car { get; set; }
 
-        public async Task<ActionResult<Car>> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             HttpClient client = new HttpClient();
 
+            var car = await client.GetFromJsonAsync<Car>($"https://localhost:7124/api/Car/GetCarById/{id}");
 
-
-            if (id == null || client == null)
-            {
-                return NotFound();
-            }
-
-            var res = await client.PostAsJsonAsync<int>(@"https://localhost:7124/api/Car?id", (int)id);
-            string resAsString = res.Content.ToString();
-            Car car = JsonConvert.DeserializeObject<Car>(resAsString);
-
-            if (res == null)
+            if (car == null)
             {
                 return NotFound();
             }

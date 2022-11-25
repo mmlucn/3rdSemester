@@ -17,13 +17,13 @@ namespace CarRentalSite.Pages.cars2
     {
         private readonly UserManager<CarRentalSiteUser> _userManager;
         private readonly IConfiguration _configuration;
-        private readonly string _conString;
+        
 
         public CreateModel(UserManager<CarRentalSiteUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
-            _conString = _configuration.GetConnectionString("Hildur");
+            
         }
 
         public IActionResult OnGet()
