@@ -72,6 +72,31 @@ namespace ModelsDap.DB
             }
             return cars;
         }
+
+        public async Task<List<Car>> GetAllCustomerCarsAsync(int ownerId)
+        {
+            List<Car>? cars = new List<Car>();
+            using (var con = new SqlConnection(_ConString))
+            {
+                string queryCars = "select * from Cars WHERE ownerId = @ownerId";
+                //Hent alle biler.
+                var resCars = await con.QueryAsync<Car>(queryCars);
+              
+
+                //Tilføj eventuelle billeder, til hver bil.
+                //string queryImg = "select * from CarImages";
+                //var resImg = await con.QueryAsync<CarImages>(queryImg);
+                //foreach (var car in resCars)
+                //{
+                //    car.Pictures = resImg.Where(img => img.CarId == car.Id).ToList();
+                //}
+
+                //Retuner alle biler
+                cars = resCars.ToList();
+            }
+            return cars;
+        }
+
         public async Task<int> DeleteCarAsync(int id)
         {
             var sql = "DELETE FROM Cars WHERE Id = @Id";
