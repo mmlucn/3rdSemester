@@ -60,7 +60,7 @@ namespace ModelsDap.DB
             return cars;
         }
 
-        public async Task<List<Car>> GetAllCustomerCarsAsync(int ownerId)
+        public async Task<List<Car>> GetAllCustomerCarsAsync(int onwerId)
         {
             List<Car>? cars = new List<Car>();
             using (var con = new SqlConnection(_ConString))

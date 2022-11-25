@@ -44,7 +44,19 @@ namespace WebAPI.Controllers
             return Problem("Error");
         }
 
-        
+        [HttpGet("GetAllUsersCars/{ownerId}")]
+        [ProducesResponseType(typeof(List<Car>), 200)]
+        public async Task<ActionResult<Car>> GetAllUsersCars(int ownerId)
+        {
+            CarDB carDB = new CarDB(_conString);
+            var res = await carDB.GetAllCustomerCarsAsync(ownerId);
+            if (res.Count > 0)
+                return Ok(res);
+
+            return Problem("Error");
+        }
+
+
 
         [HttpPost("AddCar")]
         public async Task<ActionResult<bool>> AddCar([FromBody] Car car)
