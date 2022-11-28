@@ -54,12 +54,15 @@ namespace CarRentalSite.Pages.cars2
         {
             HttpClient client = new HttpClient();
 
-            if (id == null || client == null)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            await client.PostAsJsonAsync<int>(@"https://localhost:7124/api/Car/DeleteCar?id", id);
+            else
+            {
+                await client.DeleteAsync($"https://localhost:7124/api/Car/DeleteCar/{id}");
+            }
+           
             
 
             return RedirectToPage("./Index");
