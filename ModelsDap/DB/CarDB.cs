@@ -120,6 +120,11 @@ namespace ModelsDap.DB
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="carId">Id of the car</param>
+        /// <returns>A list of images as a base64 string</returns>
         public async Task<List<string>?> GetPicturesAsBase64(int carId)
         {
             List<string> returnList = new();
@@ -135,6 +140,21 @@ namespace ModelsDap.DB
             }
 
             return returnList.Count > 0 ? returnList : null;
+        }
+
+        public async Task<bool> UploadCarImages(int carId, string imageAsBase64)
+        {
+            byte[] image = System.Convert.FromBase64String(imageAsBase64);
+            using (var con = new SqlConnection(_ConString))
+            {
+                var query = "insert into CarImages (Image, CarId) VALUES (@Image, @CarId)";
+                var res = await con.ExecuteAsync(query, new
+                {
+                    Image = image,
+                    CarId = carId
+                });
+                return (res == 1);
+            }
         }
     }
 }
