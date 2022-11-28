@@ -32,7 +32,9 @@ namespace CarRentalSite.Pages.AllCars
             {
                 return NotFound();
             }
-
+            var pics = await _httpClient.GetFromJsonAsync<List<string>>($"api/Car/GetPicturesByCarId/{Id}");
+            if (pics != null)
+                car.Pictures = pics;
             Car = car;
             return Page();
         }

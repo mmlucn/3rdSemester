@@ -89,8 +89,24 @@ namespace WebAPI.Controllers
         [HttpGet("GetPicturesByCarId/{carId}")]
         public async Task<IActionResult> GetPicturesByCarId(int carId)
         {
-            var carDB = new CarDB(_conString);
-             
+            var carDb = new CarDB(_conString);
+            var res = await carDb.GetPicturesAsBase64(carId);
+            if (res != null)
+            {
+                return Ok(res);
+            }
+            else return NotFound();
+        }
+
+        [HttpPost("UploadCarImages/{carId}")]
+        public async Task<IActionResult> UploadCarImages(int carId, string imageAsBase64)
+        {
+            var carDb = new CarDB(_conString);
+            var res = await carDb.UploadCarImages(carId, imageAsBase64);
+            if (res)
+                return Ok();
+            else
+                return Problem("Couldn't upload the image(s)");
         }
     }
 }

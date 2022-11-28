@@ -22,6 +22,8 @@ namespace CarRentalSite.Pages.cars2
 
         [BindProperty]
         public Car Car { get; set; } = default!;
+        [BindProperty]
+        public IFormFileCollection UploadFiles { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -39,8 +41,7 @@ namespace CarRentalSite.Pages.cars2
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -48,16 +49,22 @@ namespace CarRentalSite.Pages.cars2
                 return Page();
             }
             
-            // TODO fix det her
             var res = await _httpClient.PostAsJsonAsync<Car>("api/Car/UpdateCar", Car);
 
-            return RedirectToPage("./Index");
-        }
+            //TODO: Fix upload a billeder.
 
-        private bool CarExists(int id)
-        {
-            return true;
-          //return _context.Car.Any(e => e.Id == id);
+            if (UploadFiles.Count > 0)
+            {
+                foreach (var file in UploadFiles)
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    await file.CopyToAsync(memoryStream);
+                    var imageAsBase64 = System.Convert.ToBase64String(memoryStream.ToArray());
+                    var uploadRes = await _httpClient.PostAsJsonAsync<string>($"api/Car/UploadCarImages/{Car.Id}", imageAsBase64);
+                }
+            }
+
+            return RedirectToPage("./Index");
         }
     }
 }
