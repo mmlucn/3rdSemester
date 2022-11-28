@@ -29,11 +29,11 @@ namespace CarRentalSite.Pages.cars2
 
         public IList<Car> Car { get;set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int ownerId)
+        public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             var customer = await _httpClient.GetFromJsonAsync<Customer>($"https://localhost:7124/api/User?email={user.Email}");
-            ownerId = customer.Id;
+            int ownerId = customer.Id;
 
             var res = await _httpClient.GetFromJsonAsync<List<Car>>($"api/Car/GetAllUsersCars/{ownerId}");
 
