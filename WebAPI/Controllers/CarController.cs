@@ -85,5 +85,12 @@ namespace WebAPI.Controllers
             var res = await carDB.UpdateCarAsync(car);
             return Ok(res);
         }
+
+        [HttpGet("GetPicturesByCarId/{carId}")]
+        public async Task<IActionResult> GetPicturesByCarId(int carId)
+        {
+            var carDB = new CarDB(_conString);
+             
+        }
     }
 }

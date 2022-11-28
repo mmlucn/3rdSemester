@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -117,6 +118,23 @@ namespace ModelsDap.DB
                     return 0;
                 }
             }
+        }
+
+        public async Task<List<string>?> GetPicturesAsBase64(int carId)
+        {
+            List<string> returnList = new();
+
+            using (var con = new SqlConnection(_ConString))
+            {
+                var query = "select * from CarImages Where CarId = @carId";
+                var res = await con.QueryAsync<byte[]>(query, carId);
+                foreach (var item in res)
+                {
+                    returnList.Add(System.Convert.ToBase64String(item));
+                }
+            }
+
+            return returnList.Count > 0 ? returnList : null;
         }
     }
 }

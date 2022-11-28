@@ -98,6 +98,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Color)
                 </td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">Select</a>
+                </td>
             </tr>
         }
     </tbody>
