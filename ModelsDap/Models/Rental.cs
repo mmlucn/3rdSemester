@@ -13,11 +13,11 @@ namespace ModelsDap.Models
         [Key]
         public int Id { get; set; }
         [ForeignKey("carId")]
-        public Car? Car { get; set; }
+        public int? CarId { get; set; }
         [ForeignKey("ownerId")]
-        public Customer? Owner { get; set; }
+        public int? OwnerId { get; set; }
         [ForeignKey("loanerId")]
-        public Customer? Loaner { get; set; }
+        public int? LoanerId { get; set; }
         public TimeSpan RentalPeriod { get; set; }
     }
 }

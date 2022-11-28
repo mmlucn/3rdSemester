@@ -16,7 +16,7 @@ namespace ModelsDap.DB
         {
             _ConString = conString;
         }
-        public async Task<int> AddRentalAsync(Rental rental)
+        public async Task<bool> AddRentalAsync(Rental rental)
         {
 
             var sql = "Insert into Rentals (carId, ownerId, loanerId, RentalPeriod)" +
@@ -25,7 +25,7 @@ namespace ModelsDap.DB
             {
                 connection.Open();
                 var result = await connection.ExecuteAsync(sql, rental);
-                return result;
+                return (result == 1);
             }
         }
         public async Task<Rental> GetRentalByIdAsync(int id)
