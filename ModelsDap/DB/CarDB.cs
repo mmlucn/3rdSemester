@@ -71,7 +71,7 @@ namespace ModelsDap.DB
                 {
                     ownerId = ownerId
                 });
-              
+
 
                 //Tilføj eventuelle billeder, til hver bil.
                 //string queryImg = "select * from CarImages";
@@ -100,13 +100,22 @@ namespace ModelsDap.DB
         public async Task<int> UpdateCarAsync(Car car)
         {
 
-            var sql = "UPDATE Cars SET Brand @Brand, Model @Model, Description @Description, Year @Year, Mileage @Mileage, Type @Type, FuelType @FuelType, Doors @Doors" +
-                ", FuelConsumption @FuelConsumption, ElectricityConsumption @ElectricityConsumption, HK @HK, GearType @GearType, RegNumber @RegNumber, Color @Color  WHERE Id = @Id";
+            var sql = @"UPDATE Cars
+                        SET Brand = @Brand, Model = @Model, Description = @Description,
+                        Year = @Year, Mileage = @Mileage, Type = @Type, FuelType = @FuelType,
+                        Doors = @Doors, FuelConsumption = @FuelConsumption, ElectricityConsumption = @ElectricityConsumption,
+                        HK = @HK, GearType = @GearType, RegNumber = @RegNumber ,Color = @Color WHERE Id = @Id";
             using (var connection = new SqlConnection(_ConString))
             {
-                connection.Open();
-                var result = await connection.ExecuteAsync(sql, car);
-                return result;
+                try
+                {
+                    var result = await connection.ExecuteAsync(sql, car);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    return 0;
+                }
             }
         }
     }

@@ -78,10 +78,9 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPut("UpdateCar/{id}")]
-        public async Task<ActionResult<int>> UpdateCar(Car car)
+        [HttpPost("UpdateCar")]
+        public async Task<ActionResult<int>> UpdateCar([FromBody] Car car)
         {
-
             CarDB carDB = new CarDB(_conString);
             var res = await carDB.UpdateCarAsync(car);
             return Ok(res);

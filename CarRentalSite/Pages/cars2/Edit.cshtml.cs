@@ -49,7 +49,7 @@ namespace CarRentalSite.Pages.cars2
             }
             
             // TODO fix det her
-            var res = await _httpClient.PutAsJsonAsync<Car>($"api/Car/UpdateCar/{Car.Id}", Car);
+            var res = await _httpClient.PostAsJsonAsync<Car>("api/Car/UpdateCar", Car);
 
             return RedirectToPage("./Index");
         }

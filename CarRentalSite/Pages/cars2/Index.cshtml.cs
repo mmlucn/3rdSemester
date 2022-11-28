@@ -16,9 +16,9 @@ namespace CarRentalSite.Pages.cars2
     public class IndexModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        
+        private readonly UserManager<CarRentalSiteUser> _userManager;
 
-        public IndexModel(HttpClient httpClient)
+        public IndexModel(HttpClient httpClient, UserManager<CarRentalSiteUser> userManager)
         {
             _httpClient = httpClient;
         }
@@ -28,7 +28,7 @@ namespace CarRentalSite.Pages.cars2
         public async Task<IActionResult> OnGetAsync()
         {
             
-            var res = await _httpClient.GetFromJsonAsync<List<Car>>(@"api/Car/GetAllCars");
+            var res = await _httpClient.GetFromJsonAsync<List<Car>>(@"api/Car/GetAllUsersCars/{ownerId}");
 
             if (res != null && res.Count > 0)
             {
