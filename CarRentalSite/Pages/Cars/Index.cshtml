@@ -5,5 +5,101 @@
 }
 
 <table>
-
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Mileage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].FuelType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Doors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].FuelConsumption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].ElectricityConsumption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].HK)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].GearType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].RegNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Color)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Car)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mileage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FuelType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Doors)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FuelConsumption)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ElectricityConsumption)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HK)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GearType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 </table>

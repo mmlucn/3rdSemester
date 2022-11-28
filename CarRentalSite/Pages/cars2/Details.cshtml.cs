@@ -26,7 +26,7 @@ namespace CarRentalSite.Pages.cars2
         public async Task<IActionResult> OnGetAsync(int id)
         {
             HttpClient client = new HttpClient();
-            var car = await client.GetFromJsonAsync<Car>(@"https://localhost:7124/api/Car?id=" + id);
+            var car = await client.GetFromJsonAsync<Car>($"https://localhost:7124/api/Car/GetCarById/{id}");
 
             if (car == null)
             {
