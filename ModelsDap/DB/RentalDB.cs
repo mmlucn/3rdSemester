@@ -44,7 +44,7 @@ namespace ModelsDap.DB
             using (var con = new SqlConnection(_ConString))
             {
                 string queryRentals = "select * from Rentals WHERE ownerId = @ownerId";
-                var resRentals = await con.QueryAsync<Rental>(queryRentals);
+                var resRentals = await con.QueryAsync<Rental>(queryRentals, ownerId);
 
                 return resRentals.ToList();
             }
@@ -58,6 +58,17 @@ namespace ModelsDap.DB
             {
                 connection.Open();
                 var result = await connection.ExecuteAsync(sql, rental);
+                return result;
+            }
+        }
+
+        public async Task<int> DeleteRentalAsync(int id)
+        {
+            var sql = "DELETE FROM Rentals WHERE Id = @Id";
+            using (var connection = new SqlConnection(_ConString))
+            {
+                connection.Open();
+                var result = await connection.ExecuteAsync(sql, new { Id = id });
                 return result;
             }
         }

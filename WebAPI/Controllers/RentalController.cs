@@ -68,9 +68,18 @@ namespace WebAPI.Controllers
         }
 
         // DELETE api/<RentalController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("DeleteRental/{id}")]
+        public async Task<ActionResult<int>> DeleteRental(int id)
         {
+            RentalDB rDB = new RentalDB(_conString);
+            var res = await rDB.DeleteRentalAsync(id);
+            if (res == null)
+            {
+                return NotFound();
+            }
+            else
+                return Ok();
+
         }
     }
 }
