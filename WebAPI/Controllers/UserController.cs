@@ -46,5 +46,17 @@ namespace WebAPI.Controllers
                 return Ok();
             return Problem("Error");
         }
+
+        [HttpDelete("DeleteUser/{email}")]
+        public async Task<ActionResult<int>> DeleteUser(string email)
+        {
+            CustomerDB customerDB = new(_conString);
+            var res = await customerDB.DeleteCustomerAsync(email);
+            if (res == 0)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
     }
 }

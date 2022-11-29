@@ -4,6 +4,7 @@ using ModelsDap.Models;
 using ModelsDap.Models.DTOS;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,15 +13,15 @@ namespace ModelsDap.DB
 {
     public class CustomerDB
     {
-        private string _ConnectionString;
-        public CustomerDB(string connectionString)
+        private string _ConString;
+        public CustomerDB(string conString)
         {
-            _ConnectionString = connectionString;
+            _ConString = conString;
         }
 
         public async Task<Customer> GetCustomerByEmailAsync(string email)
         {
-            using (var con = new SqlConnection(_ConnectionString))
+            using (var con = new SqlConnection(_ConString))
             {
                 string query = "SELECT * FROM Customers WHERE Email=@Email";
                 var res = await con.QueryAsync<Customer>(query, new
@@ -36,7 +37,7 @@ namespace ModelsDap.DB
         {
             var sql = @"INSERT INTO Customers (Firstname, Lastname, Address, EMail, CPR, DateOfBirth, DrivingLicenseNumber, PhoneNumber, ProfilePicture) 
             VALUES (@Firstname, @Lastname, @Address, @EMail, @CPR, @DateOfBirth, @DrivingLicenseNumber, @PhoneNumber, @ProfilePicture)";
-            using (var connection = new SqlConnection(_ConnectionString))
+            using (var connection = new SqlConnection(_ConString))
             {
                 var sqlModel = new
                 {
@@ -66,7 +67,7 @@ namespace ModelsDap.DB
         public async Task<bool> UpdateProfilePictureAsync(ProfilePictureDTO profilePictureDTO)
         {
             string query = @"UPDATE Customers SET ProfilePicture = @Picture WHERE Id = @UserId";
-            using (var con = new SqlConnection(_ConnectionString))
+            using (var con = new SqlConnection(_ConString))
             {
                 var res = await con.ExecuteAsync(query, new
                 {
@@ -76,6 +77,16 @@ namespace ModelsDap.DB
                 return (res == 1);
             }
             return false;
+        }
+        public async Task<int> DeleteCustomerAsync(string email)
+        {
+            var sql = "DELETE FROM Customers WHERE EMail = @Email \r\n Delete FROM AspNetUsers WHERE Email = @Email";
+            using (var connection = new SqlConnection(_ConString))
+            {
+                connection.Open();
+                var result = await connection.ExecuteAsync(sql, new { Email = email });
+                return result;
+            }
         }
     }
 }
