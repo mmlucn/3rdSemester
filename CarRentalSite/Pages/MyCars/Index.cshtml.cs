@@ -27,7 +27,7 @@ namespace CarRentalSite.Pages.cars2
             _userManager = userManager;
         }
 
-        public IList<Car> Car { get;set; } = default!;
+        public IList<Car> Car { get; set; } = default!;
 
 
         public async Task<IActionResult> OnGetAsync()
@@ -35,19 +35,24 @@ namespace CarRentalSite.Pages.cars2
             var user = await _userManager.GetUserAsync(User);
             var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             int ownerId = customer.Id;
-            // TODO FIX HVIS INGEN BILER EKSISTERER
-            var res = await _httpClient.GetFromJsonAsync<List<Car>>($"api/Car/GetAllUsersCars/{ownerId}");
 
-            if (res != null && res.Count > 0)
+            //Ugly fix, but works
+
+            try
             {
+                var res = await _httpClient.GetFromJsonAsync<List<Car>>($"api/Car/GetAllUsersCars/{ownerId}");
+                if (res != null && res.Count > 0)
+                {
 
-                Car = res.ToList();
-                return Page();
+                    Car = res.ToList();
+                    return Page();
+                }
             }
-            else
+            catch (Exception ex)
             {
                 return RedirectToPage("Create");
             }
+            return Page();
         }
 
     }
