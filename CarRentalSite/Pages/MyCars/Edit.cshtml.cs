@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CarRentalSite.Data;
 using ModelsDap.Models;
+using ModelsDap.DB;
+using CarRentalLibrary.Models.DTOS;
 
 namespace CarRentalSite.Pages.cars2
 {
@@ -22,9 +24,9 @@ namespace CarRentalSite.Pages.cars2
 
         [BindProperty]
         public Car Car { get; set; } = default!;
+
         [BindProperty]
-        
-        public IFormFileCollection UploadFiles { get; set; }
+        public IFormFileCollection? UploadFiles { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -49,20 +51,28 @@ namespace CarRentalSite.Pages.cars2
             {
                 return Page();
             }
-            
+
             var res = await _httpClient.PostAsJsonAsync<Car>("api/Car/UpdateCar", Car);
 
-            //TODO: Fix upload af billeder.
+            //TODO: Man kan kun uploade ét billede nu, gør det muligt at uploade flere. :) <33
 
-            if (UploadFiles.Count > 0)
+            if (UploadFiles != null && UploadFiles.Count > 0)
             {
+                List<string> imagesAsBase64 = new();
                 foreach (var file in UploadFiles)
                 {
                     MemoryStream memoryStream = new MemoryStream();
                     await file.CopyToAsync(memoryStream);
                     var imageAsBase64 = System.Convert.ToBase64String(memoryStream.ToArray());
-                    var uploadRes = await _httpClient.PostAsJsonAsync<string>($"api/Car/UploadCarImages/{Car.Id}", imageAsBase64);
+                    imagesAsBase64.Add(imageAsBase64);
                 }
+
+                CarImagesDTO carImagesDTO = new CarImagesDTO()
+                {
+                    CarId = Car.Id,
+                    ImageAsByte64 = imagesAsBase64.ToArray()
+                };
+                var uploadRes = await _httpClient.PostAsJsonAsync<CarImagesDTO>($"api/Car/UploadCarImages", carImagesDTO);
             }
 
             return RedirectToPage("./Index");
