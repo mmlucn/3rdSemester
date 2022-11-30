@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModelsDap.Models
 {
@@ -18,6 +13,7 @@ namespace ModelsDap.Models
         public int? OwnerId { get; set; }
         [ForeignKey("loanerId")]
         public int? LoanerId { get; set; }
-        public TimeSpan RentalPeriod { get; set; }
+        public DateTime RentalStartPeriod { get; set; }
+        public DateTime RentalEndPeriod { get; set; }
     }
 }

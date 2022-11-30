@@ -15,9 +15,7 @@ namespace ModelsDap.Conversion
             return new Customer()
             {
                 Address = customerDTO.Address,
-                CPR = null,
                 DateOfBirth = customerDTO.DateOfBirth,
-                DrivingLicenseNumber = customerDTO.DrivingLicenseNumber,
                 EMail = customerDTO.EMail,
                 Firstname = customerDTO.Firstname,
                 Lastname = customerDTO.Lastname,

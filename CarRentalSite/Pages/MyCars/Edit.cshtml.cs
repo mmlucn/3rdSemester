@@ -23,6 +23,7 @@ namespace CarRentalSite.Pages.cars2
         [BindProperty]
         public Car Car { get; set; } = default!;
         [BindProperty]
+        
         public IFormFileCollection UploadFiles { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -51,7 +52,7 @@ namespace CarRentalSite.Pages.cars2
             
             var res = await _httpClient.PostAsJsonAsync<Car>("api/Car/UpdateCar", Car);
 
-            //TODO: Fix upload a billeder.
+            //TODO: Fix upload af billeder.
 
             if (UploadFiles.Count > 0)
             {

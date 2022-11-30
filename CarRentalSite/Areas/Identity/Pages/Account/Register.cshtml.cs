@@ -109,14 +109,8 @@ namespace CarRentalSite.Areas.Identity.Pages.Account
             [Display(Name = "Address")]
             public string Address { get; set; }
 
-            [Display(Name = "CPR")]
-            public string CPR { get; set; }
-
             [Display(Name = "Birthday")]
             public DateTime Birthday { get; set; }
-
-            [Display(Name = "Driver license number")]
-            public string DrivingLicenseNumber { get; set; }
 
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
@@ -148,9 +142,7 @@ namespace CarRentalSite.Areas.Identity.Pages.Account
                 var customer = new Customer()
                 {
                     Address = Input.Address,
-                    CPR = Input.CPR,
                     DateOfBirth = Input.Birthday,
-                    DrivingLicenseNumber = Input.DrivingLicenseNumber,
                     EMail = Input.Email,
                     Firstname = Input.Firstname,
                     Lastname = Input.Lastname,

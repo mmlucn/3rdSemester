@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelsDap", "ModelsDap\ModelsDap.csproj", "{F31ECDCD-5753-438D-BF1A-10C624D0C9F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalLibrary", "ModelsDap\CarRentalLibrary.csproj", "{F31ECDCD-5753-438D-BF1A-10C624D0C9F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{41150D3D-0BCC-4D51-B98E-F075D028CDEC}"
 EndProject

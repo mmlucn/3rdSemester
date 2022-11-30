@@ -23,20 +23,28 @@ namespace ModelsDap.DB
         {
             using (var con = new SqlConnection(_ConString))
             {
-                string query = "SELECT * FROM Customers WHERE Email=@Email";
-                var res = await con.QueryAsync<Customer>(query, new
+                try
                 {
-                    Email = email
-                });
-                if (res.First()?.EMail == email) return res.First();
+                    string query = "SELECT * FROM Customers WHERE Email=@Email";
+                    var res = await con.QueryAsync<Customer>(query, new
+                    {
+                        Email = email
+                    });
+                    if (res.First()?.EMail == email) return res.First();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
             }
             return null;
         }
 
         public async Task<bool> AddCustomerAsync(Customer customer)
         {
-            var sql = @"INSERT INTO Customers (Firstname, Lastname, Address, EMail, CPR, DateOfBirth, DrivingLicenseNumber, PhoneNumber, ProfilePicture) 
-            VALUES (@Firstname, @Lastname, @Address, @EMail, @CPR, @DateOfBirth, @DrivingLicenseNumber, @PhoneNumber, @ProfilePicture)";
+            var sql = @"INSERT INTO Customers (Firstname, Lastname, Address, EMail, DateOfBirth, PhoneNumber, ProfilePicture) 
+            VALUES (@Firstname, @Lastname, @Address, @EMail, @DateOfBirth, @PhoneNumber, @ProfilePicture)";
             using (var connection = new SqlConnection(_ConString))
             {
                 var sqlModel = new
@@ -45,9 +53,7 @@ namespace ModelsDap.DB
                     Lastname = customer.Lastname,
                     Address = customer.Address,
                     EMail = customer.EMail,
-                    CPR = customer.CPR,
                     DateOfBirth = customer.DateOfBirth,
-                    DrivingLicenseNumber = customer.DrivingLicenseNumber,
                     PhoneNumber = customer.PhoneNumber,
                     ProfilePicture = Array.Empty<byte>()
                 };
