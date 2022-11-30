@@ -22,9 +22,9 @@ namespace CarRentalSite.Pages.cars2
 
         [BindProperty]
         public Car Car { get; set; } = default!;
-        [BindProperty]
         
-        public IFormFileCollection UploadFiles { get; set; }
+        [BindProperty]
+        public IFormFileCollection? UploadFiles { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -53,8 +53,9 @@ namespace CarRentalSite.Pages.cars2
             var res = await _httpClient.PostAsJsonAsync<Car>("api/Car/UpdateCar", Car);
 
             //TODO: Fix upload af billeder.
+            // Det virker her, nu skal API'en bare virke.
 
-            if (UploadFiles.Count > 0)
+            if (UploadFiles != null && UploadFiles.Count > 0)
             {
                 foreach (var file in UploadFiles)
                 {
