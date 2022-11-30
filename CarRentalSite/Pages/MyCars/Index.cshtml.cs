@@ -29,12 +29,13 @@ namespace CarRentalSite.Pages.cars2
 
         public IList<Car> Car { get;set; } = default!;
 
+
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             int ownerId = customer.Id;
-
+            // TODO FIX HVIS INGEN BILER EKSISTERER
             var res = await _httpClient.GetFromJsonAsync<List<Car>>($"api/Car/GetAllUsersCars/{ownerId}");
 
             if (res != null && res.Count > 0)
