@@ -14,19 +14,19 @@ namespace CarRentalSite.Pages.cars2
 {
     public class DetailsModel : PageModel
     {
-        
 
-        public DetailsModel()
+        private readonly HttpClient _httpClient;
+        public DetailsModel(HttpClient httpClient)
         {
-            
+            _httpClient = httpClient;   
         }
 
       public Car Car { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            HttpClient client = new HttpClient();
-            var car = await client.GetFromJsonAsync<Car>($"https://localhost:7124/api/Car/GetCarById/{id}");
+            
+            var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
 
             if (car == null)
             {

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using ModelsDap.Models;
 
 namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
 {
@@ -18,15 +19,18 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<CarRentalSiteUser> _userManager;
         private readonly SignInManager<CarRentalSiteUser> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
+        private readonly HttpClient _httpClient;
 
         public DeletePersonalDataModel(
             UserManager<CarRentalSiteUser> userManager,
             SignInManager<CarRentalSiteUser> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            HttpClient httpClient)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _httpClient = httpClient;
         }
 
         /// <summary>
@@ -87,16 +91,16 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            var result = await _userManager.DeleteAsync(user);
-            var userId = await _userManager.GetUserIdAsync(user);
-            if (!result.Succeeded)
+            var result = await _httpClient.DeleteAsync($"api/User/DeleteUser/{user.Email}");
+            var userName = await _userManager.GetUserNameAsync(user);
+            if (!result.IsSuccessStatusCode)
             {
                 throw new InvalidOperationException($"Unexpected error occurred deleting user.");
             }
 
             await _signInManager.SignOutAsync();
 
-            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userName);
 
             return Redirect("~/");
         }

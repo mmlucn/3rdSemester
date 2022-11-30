@@ -16,12 +16,12 @@ namespace CarRentalSite.Pages.cars2
 {
     public class DeleteModel : PageModel
     {
-        
-        
+        private readonly HttpClient _httpClient;
 
-        public DeleteModel()
+
+        public DeleteModel(HttpClient httpClient)
         {
-            
+            _httpClient = httpClient;
         }
 
         public class InputModel
@@ -35,9 +35,9 @@ namespace CarRentalSite.Pages.cars2
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            HttpClient client = new HttpClient();
+            
 
-            var car = await client.GetFromJsonAsync<Car>($"https://localhost:7124/api/Car/GetCarById/{id}");
+            var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
 
             if (car == null)
             {
@@ -60,7 +60,7 @@ namespace CarRentalSite.Pages.cars2
             }
             else
             {
-                await client.DeleteAsync($"https://localhost:7124/api/Car/DeleteCar/{id}");
+                await _httpClient.DeleteAsync($"api/Car/DeleteCar/{id}");
             }
            
             
