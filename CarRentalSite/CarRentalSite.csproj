@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ModelsDap\ModelsDap.csproj" />
+    <ProjectReference Include="..\ModelsDap\CarRentalLibrary.csproj" />
   </ItemGroup>
 
 </Project>

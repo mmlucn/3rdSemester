@@ -42,7 +42,6 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
 
         public string? ProfilePictureBase64 { get; set; }
 
-        public string CPR { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -82,19 +81,20 @@ namespace CarRentalSite.Areas.Identity.Pages.Account.Manage
         private async Task LoadAsync(CarRentalSiteUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            var res = await _client.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
-            if (res != null)
-                _Customer = res;
+            var customer = await _client.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
+            if (customer != null)
+                _Customer = customer;
 
             Username = userName;
-            CPR = _Customer.CPR;
             ProfilePictureBase64 = System.Convert.ToBase64String(_Customer.ProfilePicture);
+
+            //WTF IS THIS SHIT
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = _Customer.PhoneNumber,
+                Address = _Customer.Address,
             };
         }
 
