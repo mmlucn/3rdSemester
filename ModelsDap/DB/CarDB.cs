@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using CarRentalLibrary.Models.DTOS;
+using Dapper;
 using Microsoft.Data.SqlClient;
 using ModelsDap.Conversion;
 using ModelsDap.Models;
@@ -142,19 +143,26 @@ namespace ModelsDap.DB
             return returnList.Count > 0 ? returnList : null;
         }
 
-        public async Task<bool> UploadCarImages(int carId, string imageAsBase64)
+        public async Task<bool> UploadCarImages(CarImagesDTO carImagesDTO)
         {
-            byte[] image = System.Convert.FromBase64String(imageAsBase64);
-            using (var con = new SqlConnection(_ConString))
+            int succesCriteria = carImagesDTO.ImageAsByte64.Length;
+            int succesCount = 0;
+
+            foreach (var imageAsBase64 in carImagesDTO.ImageAsByte64)
             {
-                var query = "insert into CarImages (Image, CarId) VALUES (@Image, @CarId)";
-                var res = await con.ExecuteAsync(query, new
+                byte[] image = System.Convert.FromBase64String(imageAsBase64);
+                using (var con = new SqlConnection(_ConString))
                 {
-                    Image = image,
-                    CarId = carId
-                });
-                return (res == 1);
+                    var query = "insert into CarImages (Image, CarId) VALUES (@Image, @CarId)";
+                    var res = await con.ExecuteAsync(query, new
+                    {
+                        Image = image,
+                        CarId = carImagesDTO.CarId,
+                    });
+                    succesCount += res;
+                }
             }
+            return (succesCount == succesCriteria);
         }
     }
 }

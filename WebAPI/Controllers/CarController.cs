@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarRentalLibrary.Models.DTOS;
+using Microsoft.AspNetCore.Mvc;
 using ModelsDap.DB;
 using ModelsDap.Models;
 using System.ComponentModel.DataAnnotations;
@@ -98,11 +99,11 @@ namespace WebAPI.Controllers
             else return NotFound();
         }
 
-        [HttpPost("UploadCarImages/{carId}")]
-        public async Task<IActionResult> UploadCarImages(int carId, string imageAsBase64)
+        [HttpPost("UploadCarImages")]
+        public async Task<IActionResult> UploadCarImages(CarImagesDTO carImagesDTO)
         {
             var carDb = new CarDB(_conString);
-            var res = await carDb.UploadCarImages(carId, imageAsBase64);
+            var res = await carDb.UploadCarImages(carImagesDTO);
             if (res)
                 return Ok();
             else
