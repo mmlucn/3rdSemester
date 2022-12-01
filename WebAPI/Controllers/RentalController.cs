@@ -35,15 +35,28 @@ namespace WebAPI.Controllers
         }
 
         // get api/<rentalcontroller>/5
-        [HttpGet("GetAllUserRentals/{ownerid}")]
+        [HttpGet("GetAllOwnerRentals/{ownerid}")]
         [ProducesResponseType(typeof(List<Rental>), 200)]
-        public async Task<ActionResult<List<Rental>>> GetAllRentals(int ownerid)
+        public async Task<ActionResult<List<Rental>>> GetAllOwnerRentals(int ownerid)
         {
             RentalDB rDB = new RentalDB(_conString);
-            var res = await rDB.GetAllRentalsAsync(ownerid);
+            var res = await rDB.GetAllOwnersRentalsAsync(ownerid);
             if (res.Count > 0)
                 return Ok(res);
             
+
+            return Problem("Error");
+        }
+
+        [HttpGet("GetAllLoanerRentals/{loanerId}")]
+        [ProducesResponseType(typeof(List<Rental>), 200)]
+        public async Task<ActionResult<List<Rental>>> GetAllLoanerRentals(int loanerId)
+        {
+            RentalDB rDB = new RentalDB(_conString);
+            var res = await rDB.GetAllLoanersRentalsAsync(loanerId);
+            if (res.Count > 0)
+                return Ok(res);
+
 
             return Problem("Error");
         }

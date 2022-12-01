@@ -38,7 +38,7 @@ namespace ModelsDap.DB
                 return result;
             }
         }
-        public async Task<List<Rental>> GetAllRentalsAsync(int ownerId)
+        public async Task<List<Rental>> GetAllOwnersRentalsAsync(int ownerId)
         {
             List<Rental> rentals = new List<Rental>();
             using (var con = new SqlConnection(_ConString))
