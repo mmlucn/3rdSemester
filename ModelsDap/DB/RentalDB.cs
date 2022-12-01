@@ -19,8 +19,8 @@ namespace ModelsDap.DB
         public async Task<bool> AddRentalAsync(Rental rental)
         {
 
-            var sql = "Insert into Rentals (carId, ownerId, loanerId, RentalPeriod)" +
-                "VALUES (@carId,@ownerId,@loanerId,@RentalPeriod)";
+            var sql = "Insert into Rentals (carId, ownerId, loanerId, RentalStartPeriod, RentalEndPeriod)" +
+                "VALUES (@carId,@ownerId,@loanerId,@RentalStartPeriod, @RentalEndPeriod)";
             using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
@@ -44,7 +44,25 @@ namespace ModelsDap.DB
             using (var con = new SqlConnection(_ConString))
             {
                 string queryRentals = "select * from Rentals WHERE ownerId = @ownerId";
-                var resRentals = await con.QueryAsync<Rental>(queryRentals, ownerId);
+                var resRentals = await con.QueryAsync<Rental>(queryRentals, new
+                {
+                    ownerId = ownerId
+                });
+
+                return resRentals.ToList();
+            }
+            return null;
+        }
+        public async Task<List<Rental>> GetAllLoanersRentalsAsync(int loanerId)
+        {
+            List<Rental> rentals = new List<Rental>();
+            using (var con = new SqlConnection(_ConString))
+            {
+                string queryRentals = "select * from Rentals WHERE loanerId = @loanerId";
+                var resRentals = await con.QueryAsync<Rental>(queryRentals, new
+                {
+                    loanerId = loanerId
+                });
 
                 return resRentals.ToList();
             }
@@ -53,7 +71,7 @@ namespace ModelsDap.DB
         public async Task<int> UpdateRentalAsync(Rental rental)
         {
 
-            var sql = "UPDATE Rentals SET RentalPeriod @RentalPeriod  WHERE Id = @Id";
+            var sql = "UPDATE Rentals SET RentalStartPeriod =  @RentalPeriod, RentalEndPeriod = @RentalEndPeriod  WHERE Id = @Id";
             using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();

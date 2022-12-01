@@ -21,7 +21,7 @@ namespace CarRentalSite
                 .AddEntityFrameworkStores<CarRentalSiteContext>();
             builder.Services.AddRazorPages(options =>
             {
-                options.Conventions.AuthorizeFolder("/cars2");
+                options.Conventions.AuthorizeFolder("/MyCars");
             });
 
             HttpClient httpClient = new HttpClient();
