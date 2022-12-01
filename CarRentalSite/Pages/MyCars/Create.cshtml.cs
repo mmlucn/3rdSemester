@@ -50,7 +50,7 @@ namespace CarRentalSite.Pages.cars2
             {
                 var user = await _userManager.GetUserAsync(User);
 
-                HttpClient httpClient = new HttpClient();
+                
                 var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
                 car.OwnerID = customer.Id;
                 var res = await _httpClient.PostAsJsonAsync<Car>(@"api/Car/AddCar", car);
