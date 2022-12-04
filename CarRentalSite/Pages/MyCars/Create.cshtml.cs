@@ -10,6 +10,7 @@ using ModelsDap.Models;
 using ModelsDap.DB;
 using Microsoft.AspNetCore.Identity;
 using CarRentalSite.Areas.Identity.Data;
+using CarRentalLibrary.Models.DTOS;
 
 namespace CarRentalSite.Pages.cars2
 {
@@ -34,8 +35,11 @@ namespace CarRentalSite.Pages.cars2
         }
 
         [BindProperty]
-        public Car car { get; set; }
-        
+        public Car Car { get; set; }
+
+        [BindProperty]
+        public IFormFileCollection? UploadFiles { get; set; }
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -52,8 +56,29 @@ namespace CarRentalSite.Pages.cars2
 
                 
                 var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
-                car.OwnerID = customer.Id;
-                var res = await _httpClient.PostAsJsonAsync<Car>(@"api/Car/AddCar", car);
+                Car.OwnerID = customer.Id;
+                var res = await _httpClient.PostAsJsonAsync<Car>(@"api/Car/AddCar", Car);
+
+                //TODO: den uploader ikke billederne???
+
+                if (UploadFiles != null && UploadFiles.Count > 0)
+                {
+                    List<string> imagesAsBase64 = new();
+                    foreach (var file in UploadFiles)
+                    {
+                        MemoryStream memoryStream = new MemoryStream();
+                        await file.CopyToAsync(memoryStream);
+                        var imageAsBase64 = System.Convert.ToBase64String(memoryStream.ToArray());
+                        imagesAsBase64.Add(imageAsBase64);
+                    }
+
+                    CarImagesDTO carImagesDTO = new CarImagesDTO()
+                    {
+                        CarId = Car.Id,
+                        ImageAsByte64 = imagesAsBase64.ToArray()
+                    };
+                    var uploadRes = await _httpClient.PostAsJsonAsync<CarImagesDTO>($"api/Car/UploadCarImages", carImagesDTO);
+                }
             }
             
 

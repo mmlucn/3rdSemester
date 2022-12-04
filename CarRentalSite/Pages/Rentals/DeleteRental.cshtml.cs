@@ -12,11 +12,11 @@ namespace CarRentalSite.Pages.Rentals
 {
     public class DeleteModel : PageModel
     {
-        private readonly CarRentalSite.Data.CarRentalSiteContext _context;
+        private readonly HttpClient _httpClient;
 
-        public DeleteModel(CarRentalSite.Data.CarRentalSiteContext context)
+        public DeleteModel(HttpClient httpClient)
         {
-            _context = context;
+            _httpClient = httpClient;
         }
 
         [BindProperty]
@@ -24,12 +24,12 @@ namespace CarRentalSite.Pages.Rentals
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Rental == null)
+            if (id == null || _httpClient == null)
             {
                 return NotFound();
             }
 
-            var rental = await _context.Rental.FirstOrDefaultAsync(m => m.Id == id);
+            var rental = await _httpClient.GetFromJsonAsync<Rental>($"api/Rental/GetRentalById/{id}");
 
             if (rental == null)
             {
@@ -44,18 +44,16 @@ namespace CarRentalSite.Pages.Rentals
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Rental == null)
+            if (id == null && _httpClient == null)
             {
                 return NotFound();
             }
-            var rental = await _context.Rental.FindAsync(id);
-
-            if (rental != null)
+            else
             {
-                Rental = rental;
-                _context.Rental.Remove(Rental);
-                await _context.SaveChangesAsync();
+                await _httpClient.DeleteAsync($"api/Rental/DeleteRental/{id}");
             }
+            
+            
 
             return RedirectToPage("./Index");
         }

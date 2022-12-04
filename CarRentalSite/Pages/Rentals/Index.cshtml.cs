@@ -26,14 +26,20 @@ namespace CarRentalSite.Pages.Rentals
 
         public IList<Rental> Rental { get;set; } = default!;
         public Car Car { get; set; }
+        public Customer Customer { get; set; }
+
+
 
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             int loanerId = customer.Id;
+            Customer = customer;
 
             var res = await _httpClient.GetFromJsonAsync<List<Rental>>($"api/Rental/GetAllLoanerRentals/{loanerId}");
+
+            
             if (res != null)
             {
                 Rental = res.ToList();

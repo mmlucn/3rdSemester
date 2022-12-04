@@ -13,11 +13,11 @@ namespace CarRentalSite.Pages.Rentals
 {
     public class EditModel : PageModel
     {
-        private readonly CarRentalSite.Data.CarRentalSiteContext _context;
+        private readonly HttpClient _httpClient;
 
-        public EditModel(CarRentalSite.Data.CarRentalSiteContext context)
+        public EditModel(HttpClient httpClient)
         {
-            _context = context;
+            _httpClient = httpClient;
         }
 
         [BindProperty]
@@ -25,12 +25,12 @@ namespace CarRentalSite.Pages.Rentals
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Rental == null)
+            if (id == null || _httpClient == null)
             {
                 return NotFound();
             }
 
-            var rental =  await _context.Rental.FirstOrDefaultAsync(m => m.Id == id);
+            var rental = await _httpClient.GetFromJsonAsync<Rental>($"api/Rental/GetRentalById/{id}");
             if (rental == null)
             {
                 return NotFound();
@@ -47,31 +47,29 @@ namespace CarRentalSite.Pages.Rentals
             {
                 return Page();
             }
+            //TODO: Edit bliver ikke opdateret efter man ændrer datoerne i en rental
 
-            _context.Attach(Rental).State = EntityState.Modified;
+            var res = _httpClient.PostAsJsonAsync<Rental>($"api/Rental/UpdateRental", Rental);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RentalExists(Rental.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //try
+            //{
+            //    var res = _httpClient.PostAsJsonAsync<Rental>($"api/Rental/UpdateRental", Rental);
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!RentalExists(Rental.Id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
 
             return RedirectToPage("./Index");
         }
 
-        private bool RentalExists(int id)
-        {
-          return _context.Rental.Any(e => e.Id == id);
-        }
+        
     }
 }

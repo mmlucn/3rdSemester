@@ -12,30 +12,30 @@ namespace CarRentalSite.Pages.Rentals
 {
     public class DetailsModel : PageModel
     {
-        private readonly CarRentalSite.Data.CarRentalSiteContext _context;
+        private readonly HttpClient _httpClient;
 
-        public DetailsModel(CarRentalSite.Data.CarRentalSiteContext context)
+        public DetailsModel(HttpClient httpClient)
         {
-            _context = context;
+            _httpClient = httpClient;
         }
 
       public Rental Rental { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Rental == null)
+            if (id == null || _httpClient == null)
             {
                 return NotFound();
             }
 
-            var res = await _context.Rental.FirstOrDefaultAsync(m => m.Id == id);
-            if (rental == null)
+            var res = await _httpClient.GetFromJsonAsync<Rental>($"api/Rental/GetRentalById/{id}");
+            if (res == null)
             {
                 return NotFound();
             }
             else 
             {
-                Rental = rental;
+                Rental = res;
             }
             return Page();
         }
