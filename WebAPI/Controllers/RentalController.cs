@@ -21,9 +21,9 @@ namespace WebAPI.Controllers
             _conString = _Configuration.GetConnectionString("Hildur");
         }
 
-        // GET: api/<RentalController>
-        [HttpGet]
-        public async Task<ActionResult<Rental>> GetCarById(int id)
+        
+        [HttpGet("GetRentalById/{id}")]
+        public async Task<ActionResult<Rental>> GetRentalById(int id)
         {
             RentalDB rDB = new RentalDB(_conString);
             var res = await rDB.GetRentalByIdAsync(id);
@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
             return Problem("Error");
         }
 
-        // get api/<rentalcontroller>/5
+        
         [HttpGet("GetAllOwnerRentals/{ownerid}")]
         [ProducesResponseType(typeof(List<Rental>), 200)]
         public async Task<ActionResult<List<Rental>>> GetAllOwnerRentals(int ownerid)
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
             return Problem("Error");
         }
 
-        // POST api/<RentalController>
+        
         [HttpPost("AddRental")]
         public async Task<ActionResult<bool>> AddRental([FromBody] Rental rental)
         {
@@ -74,13 +74,16 @@ namespace WebAPI.Controllers
             return Problem("Error");
         }
 
-        // PUT api/<RentalController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        
+        [HttpPost("UpdateRental")]
+        public async Task<ActionResult<int>> UpdateRental([FromBody] Rental rental)
         {
+            RentalDB rDB = new RentalDB(_conString);
+            var res = await rDB.UpdateRentalAsync(rental);
+            return Ok(res);
         }
 
-        // DELETE api/<RentalController>/5
+        
         [HttpDelete("DeleteRental/{id}")]
         public async Task<ActionResult<int>> DeleteRental(int id)
         {

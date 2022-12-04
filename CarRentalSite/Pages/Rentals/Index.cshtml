@@ -1,0 +1,60 @@
+﻿@page
+@model CarRentalSite.Pages.Rentals.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>My Rentals</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rental[0].CarId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rental[0].OwnerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rental[0].LoanerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rental[0].RentalStartPeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rental[0].RentalEndPeriod)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Rental) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalStartPeriod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalEndPeriod)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                @*//TODO= hvis datetime.now er en dag før item.rentalstartdate så skal man ikke kunne slette reseerveringen*@
+                
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
