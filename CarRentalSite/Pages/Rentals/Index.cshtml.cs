@@ -9,6 +9,7 @@ using CarRentalSite.Data;
 using ModelsDap.Models;
 using Microsoft.AspNetCore.Identity;
 using CarRentalSite.Areas.Identity.Data;
+using Dapper;
 
 namespace CarRentalSite.Pages.Rentals
 {
@@ -23,9 +24,11 @@ namespace CarRentalSite.Pages.Rentals
             _httpClient = httpClient;
             _userManager = userManager;
         }
-
+        [BindProperty]
         public IList<Rental> Rental { get;set; } = default!;
+        [BindProperty]
         public Car Car { get; set; }
+        [BindProperty]
         public Customer Customer { get; set; }
 
 
@@ -37,9 +40,11 @@ namespace CarRentalSite.Pages.Rentals
             int loanerId = customer.Id;
             Customer = customer;
 
-            var res = await _httpClient.GetFromJsonAsync<List<Rental>>($"api/Rental/GetAllLoanerRentals/{loanerId}");
 
+            var res = await _httpClient.GetFromJsonAsync<List<Rental>>($"api/Rental/GetAllLoanerRentals/{loanerId}");
             
+
+
             if (res != null)
             {
                 Rental = res.ToList();

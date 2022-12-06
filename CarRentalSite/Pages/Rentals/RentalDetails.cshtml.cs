@@ -20,6 +20,7 @@ namespace CarRentalSite.Pages.Rentals
         }
 
       public Rental Rental { get; set; }
+        public Car Car { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -27,6 +28,8 @@ namespace CarRentalSite.Pages.Rentals
             {
                 return NotFound();
             }
+            
+            
 
             var res = await _httpClient.GetFromJsonAsync<Rental>($"api/Rental/GetRentalById/{id}");
             if (res == null)
@@ -36,6 +39,8 @@ namespace CarRentalSite.Pages.Rentals
             else 
             {
                 Rental = res;
+                var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{res.CarId}");
+                Car = car;
             }
             return Page();
         }
