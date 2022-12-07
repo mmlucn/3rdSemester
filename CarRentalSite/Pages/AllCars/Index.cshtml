@@ -3,6 +3,30 @@
 @{
 
 }
+<style>
+  table.my-table {
+  width: 500px;
+  height: 100px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+
+table.my-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+
+table.my-table th {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #bbb;
+}
+</style>
+
 
 <table class="table">
     <thead>
@@ -55,53 +79,110 @@
     <tbody>
         @foreach (var item in Model.Car)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Brand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Year)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Mileage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FuelType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Doors)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FuelConsumption)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ElectricityConsumption)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HK)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GearType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RegNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Color)
-                </td>
-                <td>
-                    <a asp-page="./Details" asp-route-id="@item.Id">Select</a>
-                </td>
-            </tr>
+            @if (Model.Customer != null)
+            {
+                @if (item.OwnerID != Model.Customer.Id)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Brand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Year)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mileage)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FuelType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Doors)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FuelConsumption)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ElectricityConsumption)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HK)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GearType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RegNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Color)
+                        </td>
+                        <td>
+                            <a asp-page="./Details" asp-route-id="@item.Id">Select</a>
+                        </td>
+                    </tr>
+                }
+            
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Year)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mileage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FuelType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Doors)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FuelConsumption)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ElectricityConsumption)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HK)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GearType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Color)
+                    </td>
+                    <td>
+                        <a asp-page="./Details" asp-route-id="@item.Id">Select</a>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
