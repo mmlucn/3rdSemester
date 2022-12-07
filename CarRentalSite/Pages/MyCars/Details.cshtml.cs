@@ -23,14 +23,14 @@ namespace CarRentalSite.Pages.cars2
         }
 
       public Car Car { get; set; }
-        public IFormFileCollection CarPictures { get; set; }
+        public string[]? CarPicturesAsBase64 { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
             
             var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
-          // var pictures = await _httpClient.GetFromJsonAsync<List<CarImagesDTO>>($"api/Car/GetPicturesByCarId/{id}");
-
+            CarPicturesAsBase64 = await _httpClient.GetFromJsonAsync<string[]>($"api/Car/GetPicturesByCarId/{id}");
+            var breakpointt = "";
 
             if (car == null)
             {

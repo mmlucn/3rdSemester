@@ -132,8 +132,8 @@ namespace ModelsDap.DB
 
             using (var con = new SqlConnection(_ConString))
             {
-                var query = "select * from CarImages Where CarId = @carId";
-                var res = await con.QueryAsync<byte[]>(query, carId);
+                var query = "select Image from CarImages Where CarId = @CarId";
+                var res = await con.QueryAsync<byte[]>(query, param: new { CarId = carId });
                 foreach (var item in res)
                 {
                     returnList.Add(System.Convert.ToBase64String(item));
