@@ -35,10 +35,10 @@ namespace CarRentalSite.Pages.cars2
         }
 
         [BindProperty]
-        public Car Car { get; set; }
+        public Car Car { get; set;}
 
         [BindProperty]
-        public IFormFileCollection? UploadFiles { get; set; }
+        public IFormFileCollection? UploadFiles { get; set;}
 
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -50,16 +50,14 @@ namespace CarRentalSite.Pages.cars2
             {
                 return Page();
             }
-            else
-            {
+            
+            
                 var user = await _userManager.GetUserAsync(User);
-
-                
                 var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
                 Car.OwnerID = customer.Id;
                 var res = await _httpClient.PostAsJsonAsync<Car>(@"api/Car/AddCar", Car);
 
-                //TODO: den uploader ikke billederne???
+            //TODO: den uploader ikke billederne???
 
                 if (UploadFiles != null && UploadFiles.Count > 0)
                 {
@@ -79,8 +77,8 @@ namespace CarRentalSite.Pages.cars2
                     };
                     var uploadRes = await _httpClient.PostAsJsonAsync<CarImagesDTO>($"api/Car/UploadCarImages", carImagesDTO);
                 }
-            }
-            
+                
+
 
             return RedirectToPage("./Index");
         }

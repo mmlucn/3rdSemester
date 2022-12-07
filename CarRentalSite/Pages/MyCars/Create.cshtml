@@ -40,60 +40,30 @@
                 <span asp-validation-for="Car.Mileage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Car.Type" class="control-label"></label>
-                <select name="CarType" id="CarType" required>
-                    <optgroup label="CarType">
-                        <option value="">Select Car Type</option>
-                        <option value="StationCar">StationCar</option>
-                        <option value="Sedan">Sedan</option>
-                        <option value="Coupe">Coupe</option>
-                        <option value="Hatchback">Hatchback</option>
-                        <option value="Van">Van</option>
-                        <option value="Cabriolet">Cabriolet</option>
-                        <option value="SUV">SUV</option>
-                    </optgroup>
-                </select>
+                <label asp-for="Car.Type" class="control-label">Cartype</label>
+                @Html.DropDownListFor(m => m.Car.Type, new SelectList(Enum.GetValues(typeof(ModelsDap.Models.Enums.CarType))))
                 <span asp-validation-for="Car.Type" class="text-danger"></span>
             </div>
             <style>
   select {
     width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
+    padding: 8px 20px;
+    margin: 4px 0;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 3px;
     box-sizing: border-box;
   }
 </style>
             <div class="form-group">
                 <label asp-for="Car.FuelType" class="control-label"></label>
-                <select name="FuelType" id="FuelTypes" required>
-                    <optgroup label="FuelTypes">
-                        <option value="">Select Fuel Type</option>
-                        <option value="FuelTypes" disabled>Fueltypes </option>
-                        <option value="Gasoline">Gasoline</option>
-                        <option value="Diesel">Diesel</option>
-                        <option value="Electric">Electric</option>
-                        <option value="Hybrid">Hybrid</option>
-                    </optgroup>
-
+                @Html.DropDownListFor(m => m.Car.FuelType, new SelectList(Enum.GetValues(typeof(ModelsDap.Models.Enums.FuelType))))
                 </select>
                 <span asp-validation-for="Car.FuelType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Car.Doors" class="control-label"></label>
-                <select name="Doors" id="Doors" required>
-                    <optgroup label="Doors">
-                    <option value="">Select Doors</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    </optgroup>
-
-                </select>
+                @Html.DropDownListFor(m => m.Car.Doors, new SelectList("12345"))
                 <span asp-validation-for="Car.Doors" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -113,15 +83,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Car.GearType" class="control-label"></label>
-                <select name="GearType" id="GearType" required>
-                    <optgroup label="GearTypes">
-                        <option value="">Select Geartype</option>
-                        <option value="Manual">Manual</option>
-                        <option value="Automatic">Automatic</option>
-
-                    </optgroup>
-
-                </select>
+                @Html.DropDownListFor(m => m.Car.GearType, new SelectList(Enum.GetValues(typeof(ModelsDap.Models.Enums.GearType))))
                 <span asp-validation-for="Car.GearType" class="text-danger"></span>
             </div>
             <div class="form-group">
