@@ -48,7 +48,7 @@ namespace CarRentalSite.Pages.Rentals
             if (res != null)
             {
                 Rental = res.ToList();
-                
+                                
                 return Page();
             }
             return Page();

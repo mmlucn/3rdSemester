@@ -67,7 +67,7 @@ namespace CarRentalSite.Pages.AllCars
             //{
             //    var res = await _httpClient.PostAsJsonAsync<Rental>(@"api/Rental/AddRental", Rental);
             //}
-          
+
 
 
 
