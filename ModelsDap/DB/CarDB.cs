@@ -31,9 +31,9 @@ namespace ModelsDap.DB
         public async Task<int> AddCarAsync(Car car)
         {
             var sql = "Insert into Cars (Brand, Model, Description, Year, Mileage, Type, FuelType, Doors" +
-                ", FuelConsumption, ElectricityConsumption, HK, GearType, RegNumber, Color, ownerId)" +
+                ", FuelConsumption, ElectricityConsumption, HK, GearType, RegNumber, Color, PricePerDay, ownerId)" +
                 "VALUES (@Brand, @Model, @Description, @Year, @Mileage, @Type, @FuelType, @Doors, @FuelConsumption, " +
-                "@ElectricityConsumption, @HK, @GearType, @RegNumber, @Color, @ownerId); SELECT SCOPE_IDENTITY();";
+                "@ElectricityConsumption, @HK, @GearType, @RegNumber, @Color, @PricePerDay, @ownerId); SELECT SCOPE_IDENTITY();";
             using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();

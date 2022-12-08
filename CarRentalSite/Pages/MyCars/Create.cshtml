@@ -87,13 +87,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Car.RegNumber" class="control-label"></label>
-                <input asp-for="Car.RegNumber" class="form-control" />
+                <input asp-for="Car.RegNumber" type="text" pattern="[A-Za-z]{2}[0-9]{5}" class="form-control" />
                 <span asp-validation-for="Car.RegNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Car.Color" class="control-label"></label>
                 <input asp-for="Car.Color" class="form-control" />
                 <span asp-validation-for="Car.Color" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Car.PricePerDay" class="control-label"></label>
+                <input asp-for="Car.PricePerDay" class="form-control" />
+                <span asp-validation-for="Car.PricePerDay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UploadFiles" class="control-label"></label>

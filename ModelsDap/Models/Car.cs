@@ -23,6 +23,7 @@ namespace ModelsDap.Models
         public GearType GearType { get; set; }
         public string RegNumber { get; set; }
         public string Color { get; set; }
+        public double PricePerDay { get; set; }
         //List of car images, as Base64
         public List<string>? Pictures { get; set; }
     }
