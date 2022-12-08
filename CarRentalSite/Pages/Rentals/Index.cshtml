@@ -12,22 +12,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].CarId)
+                @Html.DisplayNameFor(model => model.Rentals[0].CarId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].LoanerId)
+                @Html.DisplayNameFor(model => model.Rentals[0].LoanerId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].RentalStartPeriod)
+                @Html.DisplayNameFor(model => model.Rentals[0].RentalStartPeriod)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].RentalEndPeriod)
+                @Html.DisplayNameFor(model => model.Rentals[0].RentalEndPeriod)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Rental)
+        @foreach (var item in Model.Rentals)
         {
             if (DateTime.Compare(item.RentalStartPeriod, DateTime.UtcNow) > 0)
             {
@@ -67,22 +67,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].CarId)
+                @Html.DisplayNameFor(model => model.Rentals[0].CarId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].LoanerId)
+                @Html.DisplayNameFor(model => model.Rentals[0].LoanerId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].RentalStartPeriod)
+                @Html.DisplayNameFor(model => model.Rentals[0].RentalStartPeriod)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].RentalEndPeriod)
+                @Html.DisplayNameFor(model => model.Rentals[0].RentalEndPeriod)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Rental) {
+@foreach (var item in Model.Rentals) {
     if (DateTime.Compare(item.RentalEndPeriod, DateTime.Now) > 0 && DateTime.Compare(item.RentalStartPeriod, DateTime.UtcNow) < 0)
             {
                 <tr>
@@ -121,22 +121,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].CarId)
+                @Html.DisplayNameFor(model => model.Rentals[0].CarId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].LoanerId)
+                @Html.DisplayNameFor(model => model.Rentals[0].LoanerId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].RentalStartPeriod)
+                @Html.DisplayNameFor(model => model.Rentals[0].RentalStartPeriod)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rental[0].RentalEndPeriod)
+                @Html.DisplayNameFor(model => model.Rentals[0].RentalEndPeriod)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Rental)
+        @foreach (var item in Model.Rentals)
         {
             if (DateTime.Compare(item.RentalEndPeriod, DateTime.Now) < 0)
             {

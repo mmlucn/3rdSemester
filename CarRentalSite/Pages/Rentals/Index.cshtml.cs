@@ -25,12 +25,13 @@ namespace CarRentalSite.Pages.Rentals
             _userManager = userManager;
         }
         [BindProperty]
-        public IList<Rental> Rental { get;set; } = default!;
+        public IList<Rental> Rentals { get;set; } = default!;
+
         [BindProperty]
-        public Car Car { get; set; }
+        public IList<Car> RentalCars { get; set; }
+
         [BindProperty]
         public Customer Customer { get; set; }
-
 
 
         public async Task<IActionResult> OnGetAsync()
@@ -40,15 +41,17 @@ namespace CarRentalSite.Pages.Rentals
             int loanerId = customer.Id;
             Customer = customer;
 
-
             var res = await _httpClient.GetFromJsonAsync<List<Rental>>($"api/Rental/GetAllLoanerRentals/{loanerId}");
             
-
-
             if (res != null)
             {
-                Rental = res.ToList();
-                
+                Rentals = res.ToList();
+
+                //foreach (var rental in Rentals)
+                //{
+                //    RentalCars.Add(await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{rental.CarId}"));
+                //}
+
                 return Page();
             }
             return Page();

@@ -15,6 +15,7 @@ namespace CarRentalSite.Pages.AllCars
         private readonly SignInManager<CarRentalSiteUser> _signInManager;
         private readonly UserManager<CarRentalSiteUser> _userManager;
         private readonly HttpClient _httpClient;
+        public bool AllowedToRent { get; set; }
 
         public DetailsModel(UserManager<CarRentalSiteUser> userManager, SignInManager<CarRentalSiteUser> signInManager, HttpClient httpClient)
         {
@@ -27,7 +28,12 @@ namespace CarRentalSite.Pages.AllCars
         public async Task<IActionResult> OnGet([FromQuery] int id)
         {
             Id = id;
+            var user = await _userManager.GetUserAsync(User);
+            var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{Id}");
+
+            AllowedToRent = (car.OwnerID != customer.Id);
+
             if (car == null)
             {
                 return NotFound();

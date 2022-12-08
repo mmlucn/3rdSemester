@@ -27,26 +27,22 @@ namespace CarRentalSite.Pages.AllCars
         [BindProperty]
         public Car Car { get; set; }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            //var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
+            var user = await _userManager.GetUserAsync(User);
+            var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
+            var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
+            if (car.OwnerID == customer.Id)
+                return Forbid();
+            else
+                return Page();
 
-            //if (car == null)
-            //{
-            //    return NotFound();
-            //}
-            //else
-            //{
-            //    Car = car;
-            //}
-            return Page();
 
-            
         }
 
         [BindProperty]
         public Rental Rental { get; set; }
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync(int id)
@@ -54,7 +50,7 @@ namespace CarRentalSite.Pages.AllCars
             var user = await _userManager.GetUserAsync(User);
             var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
-            Rental.LoanerId = customer.Id; 
+            Rental.LoanerId = customer.Id;
             Rental.CarId = car.Id;
             Rental.OwnerId = car.OwnerID;
             var res = await _httpClient.PostAsJsonAsync<Rental>(@"api/Rental/AddRental", Rental);
@@ -67,7 +63,7 @@ namespace CarRentalSite.Pages.AllCars
             //{
             //    var res = await _httpClient.PostAsJsonAsync<Rental>(@"api/Rental/AddRental", Rental);
             //}
-          
+
 
 
 

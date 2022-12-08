@@ -54,7 +54,6 @@ namespace CarRentalSite.Pages.cars2
 
             var res = await _httpClient.PostAsJsonAsync<Car>("api/Car/UpdateCar", Car);
 
-            //TODO: Man kan kun uploade ét billede nu, gør det muligt at uploade flere. :) <33
 
             if (UploadFiles != null && UploadFiles.Count > 0)
             {

@@ -23,21 +23,26 @@ namespace ModelsDap.DB
             _ConString = conString;
         }
 
-        public async Task<bool> AddCarAsync(Car car)
+        /// <summary>
+        /// Add a car to the DB
+        /// </summary>
+        /// <param name="car"></param>
+        /// <returns>Returns the ID of the inserted car</returns>
+        public async Task<int> AddCarAsync(Car car)
         {
-
             var sql = "Insert into Cars (Brand, Model, Description, Year, Mileage, Type, FuelType, Doors" +
                 ", FuelConsumption, ElectricityConsumption, HK, GearType, RegNumber, Color, ownerId)" +
                 "VALUES (@Brand, @Model, @Description, @Year, @Mileage, @Type, @FuelType, @Doors, @FuelConsumption, " +
-                "@ElectricityConsumption, @HK, @GearType, @RegNumber, @Color, @ownerId)";
+                "@ElectricityConsumption, @HK, @GearType, @RegNumber, @Color, @ownerId); SELECT SCOPE_IDENTITY();";
             using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
-                var result = await connection.ExecuteAsync(sql, car);
-                return (result == 1);
+                var result = await connection.QueryAsync<int>(sql, car);
+                return result.First();
             }
         }
 
+        
         public async Task<Car> GetCarByIdAsync(int id)
         {
             var sql = "SELECT * FROM Cars WHERE Id = @Id";

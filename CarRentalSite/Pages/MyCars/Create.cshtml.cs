@@ -56,8 +56,7 @@ namespace CarRentalSite.Pages.cars2
                 var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
                 Car.OwnerID = customer.Id;
                 var res = await _httpClient.PostAsJsonAsync<Car>(@"api/Car/AddCar", Car);
-
-            //TODO: den uploader ikke billederne???
+                var createdCarId = res.Content.ReadFromJsonAsync<int>();
 
                 if (UploadFiles != null && UploadFiles.Count > 0)
                 {
@@ -72,7 +71,7 @@ namespace CarRentalSite.Pages.cars2
 
                     CarImagesDTO carImagesDTO = new CarImagesDTO()
                     {
-                        CarId = Car.Id,
+                        CarId = createdCarId.Result, //Change this yoo
                         ImageAsByte64 = imagesAsBase64.ToArray()
                     };
                     var uploadRes = await _httpClient.PostAsJsonAsync<CarImagesDTO>($"api/Car/UploadCarImages", carImagesDTO);

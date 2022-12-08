@@ -13,31 +13,31 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Rental.Id" />
-            @*<div class="form-group">
-                <label asp-for="rental.carid" class="control-label"></label>
-                <input asp-for="rental.carid" class="form-control" />
-                <span asp-validation-for="rental.carid" class="text-danger"></span>
+            <input type="hidden" asp-for="RentalModel.Id" />
+            <div class="form-group">
+                <label asp-for="RentalModel.CarId" class="control-label"></label>
+                <input asp-for="RentalModel.CarId" class="form-control" />
+                <span asp-validation-for="RentalModel.CarId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="rental.ownerid" class="control-label"></label>
-                <input asp-for="rental.ownerid" class="form-control" />
-                <span asp-validation-for="rental.ownerid" class="text-danger"></span>
+                <label asp-for="RentalModel.OwnerId" class="control-label"></label>
+                <input asp-for="RentalModel.OwnerId" class="form-control" />
+                <span asp-validation-for="RentalModel.OwnerId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="rental.loanerid" class="control-label"></label>
-                <input asp-for="rental.loanerid" class="form-control" />
-                <span asp-validation-for="rental.loanerid" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="Rental.RentalStartPeriod" class="control-label"></label>
-                <input asp-for="Rental.RentalStartPeriod" class="form-control" />
-                <span asp-validation-for="Rental.RentalStartPeriod" class="text-danger"></span>
+                <label asp-for="RentalModel.LoanerId" class="control-label"></label>
+                <input asp-for="RentalModel.LoanerId" class="form-control" />
+                <span asp-validation-for="RentalModel.LoanerId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Rental.RentalEndPeriod" class="control-label"></label>
-                <input asp-for="Rental.RentalEndPeriod" class="form-control" />
-                <span asp-validation-for="Rental.RentalEndPeriod" class="text-danger"></span>
+                <label asp-for="RentalModel.RentalStartPeriod" class="control-label"></label>
+                <input asp-for="RentalModel.RentalStartPeriod" class="form-control" />
+                <span asp-validation-for="RentalModel.RentalStartPeriod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RentalModel.RentalEndPeriod" class="control-label"></label>
+                <input asp-for="RentalModel.RentalEndPeriod" class="form-control" />
+                <span asp-validation-for="RentalModel.RentalEndPeriod" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

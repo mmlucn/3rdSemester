@@ -71,12 +71,21 @@ namespace ModelsDap.DB
         public async Task<int> UpdateRentalAsync(Rental rental)
         {
 
-            var sql = "UPDATE Rentals SET RentalStartPeriod =  @RentalPeriod, RentalEndPeriod = @RentalEndPeriod  WHERE Id = @Id";
+            var sql = "UPDATE Rentals SET RentalStartPeriod =  @RentalStartPeriod, RentalEndPeriod = @RentalEndPeriod  WHERE Id = @Id";
             using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();
-                var result = await connection.ExecuteAsync(sql, rental);
-                return result;
+                try
+                {
+                    var result = await connection.ExecuteAsync(sql, rental);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                
+                
             }
         }
 

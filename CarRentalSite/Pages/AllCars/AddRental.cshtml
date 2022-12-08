@@ -15,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Rental.RentalStartPeriod" class="control-label"></label>
-                <input asp-for="Rental.RentalStartPeriod" class="form-control" type="datetime-local" min="@DateTime.Now"/>
+                <input asp-for="Rental.RentalStartPeriod" class="form-control" type="datetime-local" min="@DateTime.Now.ToString("yyyy-MM-dd")"/>
                 <span asp-validation-for="Rental.RentalStartPeriod" class="text-danger"></span>
             </div>
            

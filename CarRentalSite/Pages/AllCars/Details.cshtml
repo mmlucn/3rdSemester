@@ -96,5 +96,8 @@
 </div>
 <div>
     <a asp-page="./Index">Back to List</a>
-    <a asp-page="./AddRental" asp-route-id="@Model.Car.Id">Rent car</a>
+    @if (Model.AllowedToRent)
+    {
+        <a asp-page="./AddRental" asp-route-id="@Model.Car.Id">Rent car</a>
+    }
 </div>

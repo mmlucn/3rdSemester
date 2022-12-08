@@ -54,16 +54,12 @@ namespace WebAPI.Controllers
             return Problem("Error");
         }
 
-
-
         [HttpPost("AddCar")]
-        public async Task<ActionResult<bool>> AddCar([FromBody] Car car)
+        public async Task<ActionResult<int>> AddCar([FromBody] Car car)
         {
             CarDB carDB = new CarDB(_conString);
             var res = await carDB.AddCarAsync(car);
-            if (res)
-                return Ok(res);
-            return Problem("Error");
+            return Ok(res);
         }
 
         [HttpDelete("DeleteCar/{id}")]

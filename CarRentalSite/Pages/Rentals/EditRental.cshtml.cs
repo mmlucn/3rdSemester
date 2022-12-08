@@ -18,14 +18,18 @@ namespace CarRentalSite.Pages.Rentals
         private readonly HttpClient _httpClient;
         private readonly UserManager<CarRentalSiteUser> _userManager;
 
+        [BindProperty]
+        public Rental RentalModel { get; set; }
+
+        private int? _loanerId;
+        private int? _ownerId;
+        private int? _carId;
+
         public EditModel(HttpClient httpClient, UserManager<CarRentalSiteUser> userManager)
         {
             _httpClient = httpClient;
             _userManager = userManager;
         }
-
-        [BindProperty]
-        public Rental Rental { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -39,7 +43,10 @@ namespace CarRentalSite.Pages.Rentals
             {
                 return NotFound();
             }
-            Rental = rental;
+            RentalModel = rental;
+            _loanerId = rental.LoanerId;
+            _ownerId = rental.OwnerId;
+            _carId = rental.CarId;
             return Page();
         }
 
@@ -47,36 +54,13 @@ namespace CarRentalSite.Pages.Rentals
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-
-            //var user = await _userManager.GetUserAsync(User);
-            //var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
-            //var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
-            //Rental.LoanerId = customer.Id;
-            //Rental.CarId = car.Id;
-            //Rental.OwnerId = car.OwnerID;
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            //TODO: Edit bliver ikke opdateret efter man ændrer datoerne i en rental
 
-            var res = _httpClient.PostAsJsonAsync<Rental>($"api/Rental/UpdateRental", Rental);
+            var res = await _httpClient.PostAsJsonAsync<Rental>($"api/Rental/UpdateRental", RentalModel);
 
-            //try
-            //{
-            //    var res = _httpClient.PostAsJsonAsync<Rental>($"api/Rental/UpdateRental", Rental);
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!RentalExists(Rental.Id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
 
             return RedirectToPage("./Index");
         }
