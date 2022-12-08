@@ -96,7 +96,7 @@ namespace ModelsDap.DB
 
         public async Task<int> DeleteCarAsync(int id)
         {
-            var sql = "DELETE FROM Cars WHERE Id = @Id";
+            var sql = "DELETE FROM CarImages WHERE CarId = @Id \r\n DELETE FROM Cars WHERE Id = @Id";
             using (var connection = new SqlConnection(_ConString))
             {
                 connection.Open();

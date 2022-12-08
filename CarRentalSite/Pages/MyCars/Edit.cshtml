@@ -53,9 +53,20 @@
                 </select>
                 <span asp-validation-for="Car.FuelType" class="text-danger"></span>
             </div>
+                      <style>
+  select {
+    width: 100%;
+    padding: 8px 20px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+</style>
             <div class="form-group">
                 <label asp-for="Car.Doors" class="control-label"></label>
-                <input asp-for="Car.Doors" class="form-control" />
+                @Html.DropDownListFor(m => m.Car.Doors, new SelectList("12345"))
                 <span asp-validation-for="Car.Doors" class="text-danger"></span>
             </div>
             <div class="form-group">
