@@ -95,17 +95,7 @@ namespace WebAPI.Controllers
             else return NotFound();
         }
 
-        [HttpGet("GetCarImagesByCarId/{carId}")]
-        public async Task<IActionResult> GetCarImagesByCarId(int carId)
-        {
-            var carDb = new CarImagesDB(_conString);
-            var res = await carDb.GetPictures(carId);
-            if (res != null)
-            {
-                return Ok(res);
-            }
-            else return NotFound();
-        }
+        
 
         [HttpPost("UploadCarImages")]
         public async Task<IActionResult> UploadCarImages(CarImagesDTO carImagesDTO)
