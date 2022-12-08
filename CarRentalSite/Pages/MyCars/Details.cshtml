@@ -98,7 +98,7 @@
                 @Html.DisplayFor(model => model.Car.Color)
             </dd>
         </dl>
-    <div class="row">
+    @*<div class="row">
         <div class="col col-sm-2">
             <div class="card-deck">
                 @foreach (var carImg in Model.CarPicturesAsBase64)
@@ -113,9 +113,69 @@
                 }
             </div>
         </div>
-    </div>
+    </div>*@
+   <style>
+       .card-collection {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+   </style>
+
+   <style>
+       #my-image-collection {
+  width: 500px;
+  height: 400px;
+  overflow-y: hidden;
+  overflow-x: hidden
+       }
+
+
+
+#my-image-collection img {
+  display: inline-block;
+  width: 500px;
+  height: 400px;
+}
+   </style>
+   <style>
+/*#next-button {
+   
+  position: absolute;
+  left: 450px;
+  top: 200px;
+  z-index: 1;
+  position: relative;
+  left: 450px;
+  top: 200px;
+  z-index: 1;
+}*/
+   </style>
+    <div id="my-image-collection"
+     @foreach (var carImg in Model.CarPicturesAsBase64)
+                {   
+                        <img src="data:image/png;base64, @carImg" class="card-img-top" width="500" height="400"/>
+
+                }
+                
 </div>
+<button id="previous-button" >previous</button>
+<button id="next-button">Next</button>
+</div>
+
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Car?.Id">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>
+
+
+                @*<div class="card" style="width: 14rem">
+                        <img src="data:image/png;base64, @carImg" class="card-img-top" />
+                        <div class="card-body">
+                            <h5 class="card-title">Image 1</h5>
+                            <p class="card-text">Description of image 1.</p>
+                        </div>
+                    </div>*@
