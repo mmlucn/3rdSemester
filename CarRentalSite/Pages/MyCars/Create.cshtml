@@ -75,9 +75,16 @@
                 <input asp-for="Car.ElectricityConsumption" class="form-control" />
                 <span asp-validation-for="Car.ElectricityConsumption" class="text-danger"></span>
             </div>
+            <style>
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
             <div class="form-group">
                 <label asp-for="Car.HK" class="control-label"></label>
-                <input asp-for="Car.HK" class="form-control" />
+                <input asp-for="Car.HK" class="form-control" type="number" min="0"/>
                 <span asp-validation-for="Car.HK" class="text-danger"></span>
             </div>
             <div class="form-group">
