@@ -87,7 +87,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetPicturesByCarId(int carId)
         {
             var carDb = new CarDB(_conString);
-            var res = await carDb.GetPicturesAsBase64(carId);
+            var res = await carDb.GetPictures(carId);
             if (res != null)
             {
                 return Ok(res);

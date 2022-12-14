@@ -8,6 +8,7 @@ namespace CarRentalLibrary.Models.DTOS
 {
     public class CarImagesDTO
     {
+        public int imageId { get; set; }
         public int CarId { get; set; }
         public string[]? ImageAsByte64 { get; set; }
     }

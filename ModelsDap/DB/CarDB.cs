@@ -131,21 +131,18 @@ namespace ModelsDap.DB
         /// </summary>
         /// <param name="carId">Id of the car</param>
         /// <returns>A list of images as a base64 string</returns>
-        public async Task<List<string>?> GetPicturesAsBase64(int carId)
+        public async Task<CarImagesDTO> GetPictures(int carId)
         {
             List<string> returnList = new();
 
             using (var con = new SqlConnection(_ConString))
             {
-                var query = "select Image from CarImages Where CarId = @CarId";
-                var res = await con.QueryAsync<byte[]>(query, param: new { CarId = carId });
-                foreach (var item in res)
-                {
-                    returnList.Add(System.Convert.ToBase64String(item));
-                }
+                var query = "select * from CarImages Where CarId = @CarId";
+                var res = await con.QueryAsync<CarImagesDTO>(query, param: new { CarId = carId });
+                return res;
             }
 
-            return returnList.Count > 0 ? returnList : null;
+            return null;
         }
 
         public async Task<bool> UploadCarImages(CarImagesDTO carImagesDTO)
