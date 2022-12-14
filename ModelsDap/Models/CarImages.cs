@@ -13,16 +13,6 @@ namespace ModelsDap.Models
         public int Id { get; set; }
         public byte[] Image { get; set; }
         public int CarId { get; set; }
-        public string? base64
-        {
-            get
-            {
-                if (Image != null)
-                {
-                    return Convert.ToBase64String(Image);
-                }
-                return null;
-            }
-        }
+        public string[]? ImageAsByte64 { get; set; }
     }
 }

@@ -29,8 +29,10 @@ namespace CarRentalSite.Pages.cars2
         {
             
             var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
-            CarPicturesAsBase64 = await _httpClient.GetFromJsonAsync<string[]>($"api/Car/GetPicturesByCarId/{id}");
-            var breakpointt = "";
+           var res = await _httpClient.GetFromJsonAsync<CarImagesDTO>($"api/Car/GetPicturesByCarId/{id}");
+            CarPicturesAsBase64 = res.ImageAsByte64;
+                
+            
 
             if (car == null)
             {

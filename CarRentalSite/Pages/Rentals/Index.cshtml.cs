@@ -33,6 +33,8 @@ namespace CarRentalSite.Pages.Rentals
         [BindProperty]
         public Customer Customer { get; set; }
 
+        
+
 
         public async Task<IActionResult> OnGetAsync()
         {

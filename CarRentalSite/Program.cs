@@ -22,6 +22,7 @@ namespace CarRentalSite
             builder.Services.AddRazorPages(options =>
             {
                 options.Conventions.AuthorizeFolder("/MyCars");
+                options.Conventions.AuthorizeFolder("/Rentals");
                 options.Conventions.AuthorizePage("/AllCars/AddRental");
             });
 
