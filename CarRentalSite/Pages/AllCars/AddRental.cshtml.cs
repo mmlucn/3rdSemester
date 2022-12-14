@@ -18,14 +18,17 @@ namespace CarRentalSite.Pages.AllCars
         private readonly HttpClient _httpClient;
         private readonly UserManager<CarRentalSiteUser> _userManager;
 
+        [BindProperty]
+        public Car Car { get; set; }
+
+
         public AddRentalModel(HttpClient httpClient, UserManager<CarRentalSiteUser> userManager)
         {
             _httpClient = httpClient;
             _userManager = userManager;
 
         }
-        [BindProperty]
-        public Car Car { get; set; }
+        
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
