@@ -87,7 +87,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetPicturesByCarId(int carId)
         {
             var carDb = new CarDB(_conString);
-            var res = await carDb.GetPictures(carId);
+            var res = await carDb.GetPicturesAsync(carId);
             if (res != null)
             {
                 return Ok(res);
@@ -98,7 +98,7 @@ namespace WebAPI.Controllers
         
 
         [HttpPost("UploadCarImages")]
-        public async Task<IActionResult> UploadCarImages(CarImagesDTO carImagesDTO)
+        public async Task<IActionResult> UploadCarImages(List<CarImageDTO> carImagesDTO)
         {
             var carDb = new CarDB(_conString);
             var res = await carDb.UploadCarImages(carImagesDTO);

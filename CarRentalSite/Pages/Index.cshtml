@@ -3,29 +3,10 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
-    void CloseModal()
-    {
-
-    }
-
-    void OpenModal()
-    {
-        
-    }
-
-    bool IsModalOpen = false;
+    
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    
 </div>
-
-<button onclick="@OpenModal">Open Modal</button>
-
-<Modal IsOpen="@IsModalOpen" onclose="@CloseModal">
-    <h2>My Modal</h2>
-    <p>This is the content of my modal</p>
-    <button onclick="@CloseModal">Close Modal</button>
-</Modal>
 

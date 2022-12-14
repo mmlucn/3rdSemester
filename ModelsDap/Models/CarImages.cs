@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace ModelsDap.Models
 {
-    public class CarImages
+    public class CarImage
     {
-        [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public byte[] Image { get; set; }
         public int CarId { get; set; }
-        public string[]? ImageAsByte64 { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ModelsDap.Models;
+﻿using CarRentalLibrary.Models.DTOS;
+using ModelsDap.Models;
 using ModelsDap.Models.DTOS;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,16 @@ namespace ModelsDap.Conversion
             return new Customer()
             {
                 
+            };
+        }
+
+        public static CarImage CarImageDtoToCarImage(CarImageDTO carImageDTO)
+        {
+            return new CarImage()
+            {
+                Id = carImageDTO.Id,
+                Image = Convert.FromBase64String(carImageDTO.ImageAsBase64),
+                CarId = carImageDTO.CarId
             };
         }
     }

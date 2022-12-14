@@ -57,21 +57,21 @@ namespace CarRentalSite.Pages.cars2
 
             if (UploadFiles != null && UploadFiles.Count > 0)
             {
-                List<string> imagesAsBase64 = new();
+                List<CarImageDTO> carImageDTOs = new();
                 foreach (var file in UploadFiles)
                 {
                     MemoryStream memoryStream = new MemoryStream();
                     await file.CopyToAsync(memoryStream);
                     var imageAsBase64 = System.Convert.ToBase64String(memoryStream.ToArray());
-                    imagesAsBase64.Add(imageAsBase64);
+                    carImageDTOs.Add(new CarImageDTO()
+                    {
+                        CarId = Car.Id,
+                        Id = null,
+                        ImageAsBase64 = imageAsBase64
+                    });
                 }
 
-                CarImagesDTO carImagesDTO = new CarImagesDTO()
-                {
-                    CarId = Car.Id,
-                    ImageAsByte64 = imagesAsBase64.ToArray()
-                };
-                var uploadRes = await _httpClient.PostAsJsonAsync<CarImagesDTO>($"api/Car/UploadCarImages", carImagesDTO);
+                var uploadRes = await _httpClient.PostAsJsonAsync<List<CarImageDTO>>($"api/Car/UploadCarImages", carImageDTOs);
             }
 
             return RedirectToPage("./Index");

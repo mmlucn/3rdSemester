@@ -29,8 +29,13 @@ namespace CarRentalSite.Pages.cars2
         {
             
             var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
-           var res = await _httpClient.GetFromJsonAsync<CarImagesDTO>($"api/Car/GetPicturesByCarId/{id}");
-            CarPicturesAsBase64 = res.ImageAsByte64;
+            var res = await _httpClient.GetFromJsonAsync<List<CarImageDTO>>($"api/Car/GetPicturesByCarId/{id}");
+            var imagesAsBase64List = new List<string>();
+            foreach (var item in res)
+            {
+                imagesAsBase64List.Add(item.ImageAsBase64);
+            }
+            CarPicturesAsBase64 = imagesAsBase64List.ToArray();
                 
             
 

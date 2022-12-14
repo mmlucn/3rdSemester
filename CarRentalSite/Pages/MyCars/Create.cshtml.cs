@@ -18,15 +18,15 @@ namespace CarRentalSite.Pages.cars2
     {
         private readonly UserManager<CarRentalSiteUser> _userManager;
         private HttpClient _httpClient;
-        
+
 
         public CreateModel(
-            UserManager<CarRentalSiteUser> userManager, 
+            UserManager<CarRentalSiteUser> userManager,
             HttpClient httpClient)
         {
             _userManager = userManager;
             _httpClient = httpClient;
-            
+
         }
 
         public IActionResult OnGet()
@@ -35,48 +35,48 @@ namespace CarRentalSite.Pages.cars2
         }
 
         [BindProperty]
-        public Car Car { get; set;}
+        public Car Car { get; set; }
 
         [BindProperty]
-        public IFormFileCollection? UploadFiles { get; set;}
+        public IFormFileCollection? UploadFiles { get; set; }
 
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
 
-            
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            
-            
-                var user = await _userManager.GetUserAsync(User);
-                var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
-                Car.OwnerID = customer.Id;
-                var res = await _httpClient.PostAsJsonAsync<Car>(@"api/Car/AddCar", Car);
-                var createdCarId = res.Content.ReadFromJsonAsync<int>();
 
-                if (UploadFiles != null && UploadFiles.Count > 0)
+
+            var user = await _userManager.GetUserAsync(User);
+            var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
+            Car.OwnerID = customer.Id;
+            var res = await _httpClient.PostAsJsonAsync<Car>(@"api/Car/AddCar", Car);
+            var createdCarId = await res.Content.ReadFromJsonAsync<int>();
+
+            if (UploadFiles != null && UploadFiles.Count > 0)
+            {
+                List<CarImageDTO> carImageDTOs = new();
+                foreach (var file in UploadFiles)
                 {
-                    List<string> imagesAsBase64 = new();
-                    foreach (var file in UploadFiles)
+                    MemoryStream memoryStream = new MemoryStream();
+                    await file.CopyToAsync(memoryStream);
+                    var imageAsBase64 = System.Convert.ToBase64String(memoryStream.ToArray());
+                    carImageDTOs.Add(new CarImageDTO()
                     {
-                        MemoryStream memoryStream = new MemoryStream();
-                        await file.CopyToAsync(memoryStream);
-                        var imageAsBase64 = System.Convert.ToBase64String(memoryStream.ToArray());
-                        imagesAsBase64.Add(imageAsBase64);
-                    }
-
-                    CarImagesDTO carImagesDTO = new CarImagesDTO()
-                    {
-                        CarId = createdCarId.Result, //Change this yoo
-                        ImageAsByte64 = imagesAsBase64.ToArray()
-                    };
-                    var uploadRes = await _httpClient.PostAsJsonAsync<CarImagesDTO>($"api/Car/UploadCarImages", carImagesDTO);
+                        CarId = createdCarId,
+                        Id = null,
+                        ImageAsBase64 = imageAsBase64
+                    });
                 }
-                
+
+                var uploadRes = await _httpClient.PostAsJsonAsync<List<CarImageDTO>>($"api/Car/UploadCarImages", carImageDTOs);
+            }
+
 
 
             return RedirectToPage("./Index");

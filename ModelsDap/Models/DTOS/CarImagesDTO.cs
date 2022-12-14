@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CarRentalLibrary.Models.DTOS
 {
-    public class CarImagesDTO
+    public class CarImageDTO
     {
-        public int imageId { get; set; }
+        public int? Id { get; set; }
+        public string? ImageAsBase64 { get; set; }
         public int CarId { get; set; }
-        public string[]? ImageAsByte64 { get; set; }
     }
 }

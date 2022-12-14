@@ -42,7 +42,7 @@ namespace ModelsDap.DB
             }
         }
 
-        
+
         public async Task<Car> GetCarByIdAsync(int id)
         {
             var sql = "SELECT * FROM Cars WHERE Id = @Id";
@@ -131,40 +131,51 @@ namespace ModelsDap.DB
         /// </summary>
         /// <param name="carId">Id of the car</param>
         /// <returns>A list of images as a base64 string</returns>
-        public async Task<CarImagesDTO> GetPictures(int carId)
+        public async Task<List<CarImageDTO>> GetPicturesAsync(int carId)
         {
-            List<string> returnList = new();
-
             using (var con = new SqlConnection(_ConString))
             {
                 var query = "select * from CarImages Where CarId = @CarId";
-                var res = await con.QueryAsync<CarImagesDTO>(query, param: new { CarId = carId });
-                return res;
-            }
+                var res = await con.QueryAsync<CarImage>(query, param: new { CarId = carId });
 
-            return null;
+                var returnList = new List<CarImageDTO>();
+                foreach (var item in res)
+                {
+                    returnList.Add(new CarImageDTO
+                    {
+                        Id = (int)item.Id,
+                        ImageAsBase64 = Convert.ToBase64String(item.Image),
+                        CarId = item.CarId
+                    });
+                }
+
+                return returnList;
+            }
         }
 
-        public async Task<bool> UploadCarImages(CarImagesDTO carImagesDTO)
+        public async Task<bool> UploadCarImages(List<CarImageDTO> carImagesDTO)
         {
-            int succesCriteria = carImagesDTO.ImageAsByte64.Length;
-            int succesCount = 0;
+            int imageCountToUpload = carImagesDTO.Count;
+            int succesfullyUploadedCount = 0;
 
-            foreach (var imageAsBase64 in carImagesDTO.ImageAsByte64)
+            var query = "insert into CarImages (Image, CarId) VALUES (@Image, @CarId)";
+
+            using (var conn = new SqlConnection(_ConString))
             {
-                byte[] image = System.Convert.FromBase64String(imageAsBase64);
-                using (var con = new SqlConnection(_ConString))
+                foreach (var carImageDto in carImagesDTO)
                 {
-                    var query = "insert into CarImages (Image, CarId) VALUES (@Image, @CarId)";
-                    var res = await con.ExecuteAsync(query, new
+                    CarImage carImage = new CarImage()
                     {
-                        Image = image,
-                        CarId = carImagesDTO.CarId,
-                    });
-                    succesCount += res;
+                        Id = null,
+                        CarId = carImageDto.CarId,
+                        Image = Convert.FromBase64String(carImageDto.ImageAsBase64)
+                    };
+
+                    var res = await conn.ExecuteAsync(query, carImage);
+                    succesfullyUploadedCount += res;
                 }
+                return (imageCountToUpload == succesfullyUploadedCount);
             }
-            return (succesCount == succesCriteria);
         }
     }
 }

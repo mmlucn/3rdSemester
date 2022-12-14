@@ -39,7 +39,7 @@ namespace ModelsDap.DB
             using (var con = new SqlConnection(_ConString))
             {
                 string query = "select * from CarImages Where CarId = @Id";
-                var res = con.Query<CarImages>(query, new { Id = carId });
+                var res = con.Query<CarImage>(query, new { Id = carId });
                 res.ToList().ForEach(image =>
                 {
                     File.WriteAllBytes($"pictures/yolo{image.Image.Length}.png", image.Image);
