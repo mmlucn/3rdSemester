@@ -10,16 +10,20 @@ using CarRentalSite.Data;
 using ModelsDap.Models;
 using ModelsDap.DB;
 using CarRentalLibrary.Models.DTOS;
+using Microsoft.AspNetCore.Identity;
+using CarRentalSite.Areas.Identity.Data;
 
 namespace CarRentalSite.Pages.cars2
 {
     public class EditModel : PageModel
     {
         private readonly HttpClient _httpClient;
+        private readonly UserManager<CarRentalSiteUser> _userManager;
 
-        public EditModel(HttpClient httpClient)
+        public EditModel(HttpClient httpClient, UserManager<CarRentalSiteUser> userManager)
         {
             _httpClient = httpClient;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -35,13 +39,26 @@ namespace CarRentalSite.Pages.cars2
                 return NotFound();
             }
 
+            var user = await _userManager.GetUserAsync(User);
+            var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
             if (car == null)
             {
                 return NotFound();
             }
-            Car = car;
-            return Page();
+            else
+            {
+                Car = car;
+            }
+            
+            if (car.OwnerID != customer.Id)
+            {
+                return Forbid();
+            }
+            else
+            {
+                return Page();
+            }
         }
 
 

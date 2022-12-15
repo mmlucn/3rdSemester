@@ -11,17 +11,21 @@ using ModelsDap.DB;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Json;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
+using CarRentalSite.Areas.Identity.Data;
 
 namespace CarRentalSite.Pages.cars2
 {
     public class DeleteModel : PageModel
     {
         private readonly HttpClient _httpClient;
+        private readonly UserManager<CarRentalSiteUser> _userManager;
 
 
-        public DeleteModel(HttpClient httpClient)
+        public DeleteModel(HttpClient httpClient, UserManager<CarRentalSiteUser> userManager)
         {
             _httpClient = httpClient;
+            _userManager = userManager;
         }
 
         public class InputModel
@@ -35,7 +39,8 @@ namespace CarRentalSite.Pages.cars2
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            
+            var user = await _userManager.GetUserAsync(User);
+            var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
 
             var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
 
@@ -47,7 +52,14 @@ namespace CarRentalSite.Pages.cars2
             {
                 Car = car;
             }
-            return Page();
+            if (car.OwnerID != customer.Id)
+            {
+                return Forbid();
+            }
+            else
+            {
+                return Page();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(int id)

@@ -73,6 +73,9 @@ table.my-table th {
             <th>
                 @Html.DisplayNameFor(model => model.Car[0].Color)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].PricePerDay)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -127,6 +130,9 @@ table.my-table th {
                             @Html.DisplayFor(modelItem => item.Color)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.PricePerDay)
+                        </td>
+                        <td>
                             <a asp-page="./Details" asp-route-id="@item.Id">Select</a>
                         </td>
                     </tr>
@@ -177,6 +183,9 @@ table.my-table th {
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Color)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PricePerDay)
                     </td>
                     <td>
                         <a asp-page="./Details" asp-route-id="@item.Id">Select</a>

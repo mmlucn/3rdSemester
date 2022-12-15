@@ -42,7 +42,14 @@ namespace CarRentalSite.Pages.AllCars
             //if (pics != null)
             //    car.Pictures = pics;
             Car = car;
-            return Page();
+            if (car.OwnerID == customer.Id)
+            {
+                return Forbid();
+            }
+            else
+            {
+                return Page();
+            }
         }
     }
 }
