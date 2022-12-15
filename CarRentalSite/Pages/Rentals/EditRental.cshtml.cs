@@ -39,6 +39,14 @@ namespace CarRentalSite.Pages.Rentals
             }
 
             var rental = await _httpClient.GetFromJsonAsync<Rental>($"api/Rental/GetRentalById/{id}");
+            if(DateTime.Compare(rental.RentalEndPeriod, DateTime.Now) < 0)
+            {
+                return Forbid();
+            }
+            else
+            {
+                    
+            }
             if (rental == null)
             {
                 return NotFound();
@@ -47,7 +55,15 @@ namespace CarRentalSite.Pages.Rentals
             _loanerId = rental.LoanerId;
             _ownerId = rental.OwnerId;
             _carId = rental.CarId;
-            return Page();
+            if (DateTime.Compare(rental.RentalStartPeriod, DateTime.UtcNow) < 0)
+            {
+                return Forbid();
+            }
+            else
+            {
+                return Page();
+            }
+            
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
