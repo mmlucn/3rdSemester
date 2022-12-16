@@ -57,7 +57,17 @@ namespace CarRentalSite.Pages.AllCars
             Rental.CarId = car.Id;
             Rental.OwnerId = car.OwnerID;
             var res = await _httpClient.PostAsJsonAsync<Rental>(@"api/Rental/AddRental", Rental);
+            if (res.IsSuccessStatusCode)
+            {
+                return RedirectToPage("./Index");
 
+            }
+            else
+            {
+                var errorMessage = await res.Content.ReadAsStringAsync();
+                ModelState.AddModelError(string.Empty, "Sorry the car is not available in the requested period");
+                return Page();
+            }
             //if (!ModelState.IsValid)
             //{
             //    return Page();
@@ -70,7 +80,7 @@ namespace CarRentalSite.Pages.AllCars
 
 
 
-            return RedirectToPage("./Index");
+            
         }
     }
 }
