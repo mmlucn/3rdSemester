@@ -20,6 +20,7 @@ namespace CarRentalSite.Pages.AllCars
 
         [BindProperty]
         public Car Car { get; set; }
+        public IList<Rental>? Rentals { get; set; } = default!;
 
 
         public AddRentalModel(HttpClient httpClient, UserManager<CarRentalSiteUser> userManager)
@@ -35,6 +36,15 @@ namespace CarRentalSite.Pages.AllCars
             var user = await _userManager.GetUserAsync(User);
             var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
+            var rentalsUnderCar = await _httpClient.GetFromJsonAsync<List<Rental>>($"api/Rental/GetAllCarsRentals/{id}");
+            if (rentalsUnderCar.Count > 0)
+            {
+                Rentals = rentalsUnderCar.ToList();
+            }
+            else
+            {
+                Rentals = null;
+            }
             if (car.OwnerID == customer.Id)
                 return Forbid();
             else

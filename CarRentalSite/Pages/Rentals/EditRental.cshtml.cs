@@ -37,7 +37,8 @@ namespace CarRentalSite.Pages.Rentals
             {
                 return NotFound();
             }
-
+            var user = await _userManager.GetUserAsync(User);
+            var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             var rental = await _httpClient.GetFromJsonAsync<Rental>($"api/Rental/GetRentalById/{id}");
             if(DateTime.Compare(rental.RentalEndPeriod, DateTime.Now) < 0)
             {
@@ -55,7 +56,7 @@ namespace CarRentalSite.Pages.Rentals
             _loanerId = rental.LoanerId;
             _ownerId = rental.OwnerId;
             _carId = rental.CarId;
-            if (DateTime.Compare(rental.RentalStartPeriod, DateTime.UtcNow) < 0)
+            if (DateTime.Compare(rental.RentalStartPeriod, DateTime.UtcNow) < 0 && DateTime.Compare(rental.RentalEndPeriod, DateTime.Now) < 0 && rental.LoanerId != customer.Id)
             {
                 return Forbid();
             }

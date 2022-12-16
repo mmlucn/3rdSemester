@@ -100,6 +100,21 @@ namespace ModelsDap.DB
             }
             return null;
         }
+        public async Task<List<Rental>> GetAllCarsRentalsAsync(int carId)
+        {
+            List<Rental> rentals = new List<Rental>();
+            using (var con = new SqlConnection(_ConString))
+            {
+                string queryRentals = "select * from Rentals WHERE carId = @carId";
+                var resRentals = await con.QueryAsync<Rental>(queryRentals, new
+                {
+                    carId = carId
+                }) ;
+
+                return resRentals.ToList();
+            }
+            return null;
+        }
         public async Task<List<Rental>> GetAllLoanersRentalsAsync(int loanerId)
         {
             List<Rental> rentals = new List<Rental>();

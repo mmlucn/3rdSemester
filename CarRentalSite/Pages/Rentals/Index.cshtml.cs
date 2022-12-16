@@ -18,20 +18,21 @@ namespace CarRentalSite.Pages.Rentals
         private readonly UserManager<CarRentalSiteUser> _userManager;
         private readonly HttpClient _httpClient;
 
-
-        public IndexModel(HttpClient httpClient, UserManager<CarRentalSiteUser> userManager)
-        {
-            _httpClient = httpClient;
-            _userManager = userManager;
-        }
         [BindProperty]
-        public IList<Rental> Rentals { get;set; } = default!;
+        public IList<Rental> Rentals { get; set; } = default!;
 
         [BindProperty]
         public IList<Car> RentalCars { get; set; }
 
         [BindProperty]
         public Customer Customer { get; set; }
+
+        public IndexModel(HttpClient httpClient, UserManager<CarRentalSiteUser> userManager)
+        {
+            _httpClient = httpClient;
+            _userManager = userManager;
+        }
+        
 
         
 
