@@ -27,7 +27,6 @@ namespace CarRentalSite.Pages.AllCars
         {
             _httpClient = httpClient;
             _userManager = userManager;
-
         }
         
 
