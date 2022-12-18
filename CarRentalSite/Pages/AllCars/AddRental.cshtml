@@ -35,6 +35,39 @@
     </div>
 </div>
 
+
+<h3>Currently reserved dates</h3>
+This car is currently reserved from and to the following dates
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rentals[0].RentalStartPeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rentals[0].RentalEndPeriod)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Rentals)
+        {
+            if (DateTime.Compare(item.RentalEndPeriod, DateTime.Now) > 0 && DateTime.Compare(item.RentalStartPeriod, DateTime.UtcNow) < 0 && DateTime.Compare(item.RentalStartPeriod, DateTime.UtcNow) > 0)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RentalStartPeriod)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RentalEndPeriod)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
 <div>
     <a asp-page="Index">Back to List</a>
 </div>

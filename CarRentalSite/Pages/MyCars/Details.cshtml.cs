@@ -10,6 +10,8 @@ using ModelsDap.Models;
 using ModelsDap.DB;
 using Newtonsoft.Json;
 using CarRentalLibrary.Models.DTOS;
+using Microsoft.AspNetCore.Identity;
+using CarRentalSite.Areas.Identity.Data;
 
 namespace CarRentalSite.Pages.cars2
 {
@@ -17,9 +19,11 @@ namespace CarRentalSite.Pages.cars2
     {
 
         private readonly HttpClient _httpClient;
-        public DetailsModel(HttpClient httpClient)
+        private readonly UserManager<CarRentalSiteUser> _userManager; 
+        public DetailsModel(HttpClient httpClient, UserManager<CarRentalSiteUser> userManager)
         {
             _httpClient = httpClient;   
+            _userManager = userManager;
         }
 
       public Car Car { get; set; }
@@ -27,7 +31,8 @@ namespace CarRentalSite.Pages.cars2
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            
+            var user = await _userManager.GetUserAsync(User);
+            var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
             var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
             var res = await _httpClient.GetFromJsonAsync<List<CarImageDTO>>($"api/Car/GetPicturesByCarId/{id}");
             var imagesAsBase64List = new List<string>();
@@ -48,7 +53,15 @@ namespace CarRentalSite.Pages.cars2
                 Car = car;
                 //CarPictures = 
             }
-            return Page();
+            if (car.OwnerID != customer.Id)
+            {
+                return Forbid();
+            }
+            else
+            {
+                return Page();
+            }
+           
         }
     }
 }

@@ -39,7 +39,14 @@ namespace CarRentalSite.Pages.Rentals
             {
                 Rental = rental;
             }
-            return Page();
+            if (DateTime.Compare(rental.RentalStartPeriod, DateTime.Now) < 0)
+            {
+                return Forbid();
+            }
+            else
+            {
+                return Page();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)

@@ -48,6 +48,18 @@ namespace WebAPI.Controllers
             return Problem("Error");
         }
 
+        [HttpGet("GetAllCarsRentals/{carId}")]
+        [ProducesResponseType(typeof(List<Rental>), 200)]
+        public async Task<ActionResult<List<Rental>>> GetAllCarsRentals(int carId)
+        {
+            RentalDB rDB = new RentalDB(_conString);
+            var res = await rDB.GetAllOwnersRentalsAsync(carId);
+            if (res.Count > 0)
+                return Ok(res);
+
+
+            return Problem("Error");
+        }
         [HttpGet("GetAllLoanerRentals/{loanerId}")]
         [ProducesResponseType(typeof(List<Rental>), 200)]
         public async Task<ActionResult<List<Rental>>> GetAllLoanerRentals(int loanerId)
