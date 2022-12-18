@@ -38,7 +38,7 @@ namespace ModelsDap.DB
             {
                 await connection.OpenAsync();
 
-                using (SqlTransaction trans = connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+                using (SqlTransaction trans = connection.BeginTransaction(System.Data.IsolationLevel.Serializable))
                 {
                     try
                     {
