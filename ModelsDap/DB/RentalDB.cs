@@ -44,7 +44,7 @@ namespace ModelsDap.DB
                     {
                         // Check if there are any existing rentals that overlap with the requested rental period
                         int count = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM Rentals WHERE carId = @carId AND ((RentalStartPeriod <= @RentalStartPeriod AND RentalEndPeriod > @RentalStartPeriod) OR (RentalStartPeriod < @RentalEndPeriod AND RentalEndPeriod >= @RentalEndPeriod) OR (RentalStartPeriod >= @RentalStartPeriod AND RentalEndPeriod <= @RentalEndPeriod) OR (RentalStartPeriod <= @RentalStartPeriod AND RentalEndPeriod >= @RentalEndPeriod))",
-                            rental, /*transaction:*/ trans);
+                            rental, transaction: trans);
 
                         if (count > 0)
                         {
