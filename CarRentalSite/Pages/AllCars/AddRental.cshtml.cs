@@ -27,7 +27,6 @@ namespace CarRentalSite.Pages.AllCars
         {
             _httpClient = httpClient;
             _userManager = userManager;
-
         }
         
 
@@ -87,7 +86,7 @@ namespace CarRentalSite.Pages.AllCars
             //    var res = await _httpClient.PostAsJsonAsync<Rental>(@"api/Rental/AddRental", Rental);
             //}
 
-
+            //TODO: fix at modelstate ikke er valid.
 
 
             
