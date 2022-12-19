@@ -28,7 +28,7 @@ namespace ModelsDap.DB
         //        return (result == 1);
         //    }
         //}
-        //TODO: hvilket isolationslevel burde vi bruge
+        
         public async Task<bool> AddRentalAsync(Rental rental)
         {
 
