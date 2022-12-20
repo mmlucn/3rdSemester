@@ -11,7 +11,7 @@ namespace Tests
     public class CustomerTests
     {
         [Fact]
-        public async Task GetCustomerByEmail()
+        public async Task GetCustomerByEmailTest()
         {
             //Arrange
             CustomerDB customerDB = new(@"Data Source=hildur.ucn.dk;User ID=DMA-CSD-S211_10407501;Password=Password1!;Database=DMA-CSD-S211_10407501;Encrypt=False;TrustServerCertificate=False");
@@ -37,13 +37,13 @@ namespace Tests
                 ProfilePicture = Array.Empty<byte>()
             };
             //Act
-            await customerDB.DeleteCustomerAsync(customer.EMail);
             var res = await customerDB.AddCustomerAsync(customer);
             
             //Assert
-            //TODO: Er det her testet ordenligt
-            Assert.True(res == true);
-            
+            Assert.True(res);
+
+            //CLEANUP
+            await customerDB.DeleteCustomerAsync(customer.EMail);
         }
         [Fact]
         public async Task DeleteCustomerTest()
@@ -64,9 +64,7 @@ namespace Tests
             //Act
             var res = await customerDB.DeleteCustomerAsync(customer.EMail);
             
-
             //Assert
-            //TODO: Er det her testet ordenligt??
             Assert.True(res > 0);
 
         }

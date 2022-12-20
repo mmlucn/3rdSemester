@@ -37,12 +37,12 @@ namespace CarRentalSite.Pages.cars2
         [BindProperty]
       public Car Car { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int id)
+        public async Task<IActionResult> OnGetAsync(int carId)
         {
             var user = await _userManager.GetUserAsync(User);
             var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
 
-            var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
+            var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{carId}");
 
             if (car == null)
             {
@@ -62,17 +62,16 @@ namespace CarRentalSite.Pages.cars2
             }
         }
 
-        public async Task<IActionResult> OnPostAsync(int id)
+        public async Task<IActionResult> OnPostAsync(int carId)
         {
-            HttpClient client = new HttpClient();
-
-            if (id == null)
+            
+            if (carId == null)
             {
                 return NotFound();
             }
             else
             {
-                await _httpClient.DeleteAsync($"api/Car/DeleteCar/{id}");
+                await _httpClient.DeleteAsync($"api/Car/DeleteCar/{carId}");
             }
            
             
