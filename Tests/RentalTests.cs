@@ -23,9 +23,9 @@ namespace Tests
                 Firstname = "CAR",
                 Lastname = "TEST",
                 Address = "HANSPETERGADE 2",
-                EMail = "CARDELETETEST@gmail.com",
+                EMail = "CARDELETETEST9@gmail.com",
                 DateOfBirth = DateTime.Now,
-                PhoneNumber = "12389478",
+                PhoneNumber = "1238947894",
                 ProfilePicture = Array.Empty<byte>()
             };
             await customerDB.AddCustomerAsync(customer);
@@ -34,9 +34,9 @@ namespace Tests
                 Firstname = "Hans",
                 Lastname = "ANDERSEN",
                 Address = "HANSANDERSENGADE 2",
-                EMail = "HANSANDERSEN@gmail.com",
+                EMail = "HANSANDERSEN8@gmail.com",
                 DateOfBirth = DateTime.Now,
-                PhoneNumber = "87654329",
+                PhoneNumber = "8765432984",
                 ProfilePicture = Array.Empty<byte>()
             };
             await customerDB.AddCustomerAsync(customer2);

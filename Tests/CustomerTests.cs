@@ -31,9 +31,9 @@ namespace Tests
                 Firstname = "Hans",
                 Lastname = "Peter",
                 Address = "HANSPETERGADE 2",
-                EMail = "HANSPETER@gmail.com",
+                EMail = "HANSPETER4@gmail.com",
                 DateOfBirth = DateTime.Now,
-                PhoneNumber = "12365478",
+                PhoneNumber = "123654784",
                 ProfilePicture = Array.Empty<byte>()
             };
             //Act

@@ -25,11 +25,12 @@ namespace Tests
                 Firstname = "CAR",
                 Lastname = "TEST",
                 Address = "HANSPETERGADE 2",
-                EMail = "CARTEST@gmail.com",
+                EMail = "CARTEST41@gmail.com",
                 DateOfBirth = DateTime.Now,
-                PhoneNumber = "12389478",
+                PhoneNumber = "1238947841",
                 ProfilePicture = Array.Empty<byte>()
             };
+            
             await customerDB.AddCustomerAsync(customer);
             Car car = new()
             {
@@ -49,6 +50,7 @@ namespace Tests
                 PricePerDay = 250,
                 OwnerID = customer.Id,
             };
+           
             await carDB.AddCarAsync(car);
             //Act
             var res = await carDB.GetCarByIdAsync(car.Id);
@@ -75,6 +77,7 @@ namespace Tests
                 PhoneNumber = "12389478",
                 ProfilePicture = Array.Empty<byte>()
             };
+            await customerDB.DeleteCustomerAsync(customer.EMail);
             await customerDB.AddCustomerAsync(customer);
             Car car = new()
             {
@@ -124,12 +127,13 @@ namespace Tests
                 Firstname = "CAR",
                 Lastname = "TEST",
                 Address = "HANSPETERGADE 2",
-                EMail = "CARDELETETEST@gmail.com",
+                EMail = "CARDELETETEST2@gmail.com",
                 DateOfBirth = DateTime.Now,
-                PhoneNumber = "12389478",
+                PhoneNumber = "12389498",
                 ProfilePicture = Array.Empty<byte>()
             };
-            await customerDB.AddCustomerAsync(customer);
+            await customerDB.DeleteCustomerAsync(customer.EMail);
+            customerDB.AddCustomerAsync(customer);
             Car car = new()
             {
                 Brand = "Toyota",

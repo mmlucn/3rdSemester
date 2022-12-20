@@ -53,8 +53,8 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<List<Rental>>> GetAllCarsRentals(int carId)
         {
             RentalDB rDB = new RentalDB(_conString);
-            var res = await rDB.GetAllOwnersRentalsAsync(carId);
-            if (res.Count > 0)
+            var res = await rDB.GetAllCarsRentalsAsync(carId);
+            if (res.Count > 0) 
                 return Ok(res);
 
 
