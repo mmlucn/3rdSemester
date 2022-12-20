@@ -37,12 +37,13 @@ namespace CarRentalSite.Pages.cars2
         [BindProperty]
       public Car Car { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int carId)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             var user = await _userManager.GetUserAsync(User);
             var customer = await _httpClient.GetFromJsonAsync<Customer>($"api/User?email={user.Email}");
 
-            var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{carId}");
+            
+            var car = await _httpClient.GetFromJsonAsync<Car>($"api/Car/GetCarById/{id}");
 
             if (car == null)
             {
