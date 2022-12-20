@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CarRentalLibrary\CarRentalLibrary.csproj" />
     <ProjectReference Include="..\ModelsDap\CarRentalLibrary.csproj" />
   </ItemGroup>
 

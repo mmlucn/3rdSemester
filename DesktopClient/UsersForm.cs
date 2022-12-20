@@ -15,19 +15,34 @@ namespace DesktopClient
     public partial class UsersForm : Form
     {
 
-        private Customer customer;
-        
+        private Customer _customer;
+        private ApiClient _apiClient;
+
         public UsersForm()
         {
             InitializeComponent();
+            _apiClient = new("", new HttpClient());
         }
 
         private async void searchBtn_Click(object sender, EventArgs e)
         {
-            ApiClient apiClient = new("", new HttpClient());
-            var res = await apiClient.UserAsync(@"");
-            if (res != null)
-                customer = res;
+            var res = await _apiClient.UserAsync(label1.Text);
+            if (res != null && res.Id > 0)
+            {
+                _customer = res;
+
+                firstNameTxt.Text = _customer.Firstname;
+                lastNameTxt.Text = _customer.Lastname;
+                addressTxt.Text = _customer.Address;
+                emailTxt.Text = _customer.EMail;
+                phoneTxt.Text = _customer.PhoneNumber;
+                birthdayPicker.Value = _customer.DateOfBirth;
+            }
+        }
+
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
