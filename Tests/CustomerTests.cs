@@ -60,6 +60,7 @@ namespace Tests
                 PhoneNumber = "87654329",
                 ProfilePicture = Array.Empty<byte>()
             };
+            customerDB.DeleteCustomerAsync(customer.EMail);
             await customerDB.AddCustomerAsync(customer);
             //Act
             var res = await customerDB.DeleteCustomerAsync(customer.EMail);
